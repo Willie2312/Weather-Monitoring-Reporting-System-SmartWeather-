@@ -202,19 +202,8 @@ Weather-Monitoring-Reporting-System-SmartWeather/
 
 
 
-\### 1. Clone the repository
 
-
-
-```bash
-
-git clone https://github.com/Willie2312/Weather-Monitoring-Reporting-System-SmartWeather-.git
-
-```
-
-
-
-\### 2. Navigate into the project
+\### 1. Navigate into the project
 
 
 
@@ -226,7 +215,7 @@ cd Weather-Monitoring-Reporting-System-SmartWeather-
 
 
 
-\### 3. Install dependencies
+\### 2. Install dependencies
 
 
 
@@ -238,7 +227,7 @@ npm install
 
 
 
-\### 4. Create your environment file
+\### 3. Create your environment file
 
 
 
@@ -272,7 +261,7 @@ Add your own configuration values to the `.env` file.
 
 
 
-\### 5. Start the application
+\### 4. Start the application
 
 
 
