@@ -374,9 +374,9 @@ Developed as an academic software project with a focus on web development, weath
 
 \## 📄 License
 
+This repository is publicly available for viewing and portfolio evaluation. No license is granted for copying, modifying, redistributing, or commercial use of the source code without permission from the copyright holder.
 
 
-This project is currently available for educational and portfolio purposes.
 
 
 
