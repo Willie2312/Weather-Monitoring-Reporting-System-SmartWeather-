@@ -1,0 +1,242 @@
+/* ===== ABOUT PAGE – PROFESSIONAL & RESPONSIVE ===== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.about-body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  color: #1e293b;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: #f8fafc;
+}
+
+.about-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px;
+  background: #fff;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.about-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-decoration: none;
+}
+
+.about-logo .accent {
+  color: #2563eb;
+}
+
+.about-links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  list-style: none;
+}
+
+.about-links a {
+  padding: 8px 14px;
+  border-radius: 8px;
+  color: #475569;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.about-links a:hover,
+.about-links a.active {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.about-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.4rem;
+  cursor: pointer;
+  color: #475569;
+  padding: 4px 8px;
+}
+
+.about-page-header {
+  background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+  color: #fff;
+  padding: 48px 24px 40px;
+  text-align: center;
+}
+
+.about-page-header h1 {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  margin-bottom: 12px;
+}
+
+.about-page-header p {
+  font-size: 1.05rem;
+  opacity: 0.95;
+  max-width: 560px;
+  margin: 0 auto;
+  line-height: 1.5;
+}
+
+.about-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px 24px 56px;
+}
+
+.about-section {
+  margin-bottom: 40px;
+}
+
+.about-section h2 {
+  font-size: 1.35rem;
+  color: #0f172a;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #e2e8f0;
+}
+
+.about-section p {
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.about-section p:last-child {
+  margin-bottom: 0;
+}
+
+.about-mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 20px;
+  margin-top: 16px;
+}
+
+.about-card {
+  background: #fff;
+  padding: 24px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.about-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+}
+
+.about-card i {
+  font-size: 2rem;
+  color: #2563eb;
+  margin-bottom: 12px;
+}
+
+.about-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: 8px;
+  color: #1e293b;
+}
+
+.about-card p {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.about-feature-list {
+  list-style: none;
+  margin-top: 12px;
+}
+
+.about-feature-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid #e2e8f0;
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+.about-feature-list li:last-child {
+  border-bottom: none;
+}
+
+.about-feature-list strong {
+  color: #1e293b;
+}
+
+.about-contact {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 24px;
+  margin-top: 16px;
+}
+
+.about-contact p {
+  margin-bottom: 8px;
+}
+
+.about-contact p:last-child {
+  margin-bottom: 0;
+}
+
+.about-footer {
+  margin-top: auto;
+  padding: 20px 24px;
+  text-align: center;
+  background: #1e293b;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 768px) {
+  .about-menu-btn {
+    display: block;
+  }
+
+  .about-links {
+    display: none;
+  }
+
+  .about-links.open {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #fff;
+    flex-direction: column;
+    padding: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+
+  .about-page-header {
+    padding: 36px 20px 32px;
+  }
+
+  .about-content {
+    padding: 32px 20px 48px;
+  }
+
+  .about-mission-grid {
+    grid-template-columns: 1fr;
+  }
+}

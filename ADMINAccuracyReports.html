@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Accuracy Reports</title>
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="admin-weatherlogs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <style>
+        .accuracy-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .accurate { background: #dcfce7; color: #166534; }
+        .inaccurate { background: #fee2e2; color: #991b1b; }
+    </style>
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="NavbarDivContainer">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+                Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+            </h1>
+
+            <nav class="NavbarContainer" aria-label="Admin navigation">
+                <ul id="navbars">
+                    <li><a href="AdminDashboard.html">Dashboard</a></li>
+                    <li><a href="ADMINusers.html">Users</a></li>
+                    <li><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                    <li><a href="ADMINGeneralUserAdvice.html">G‑Users Advice</a></li>
+                    <li><a href="ADMINWeatherlogs.html">Weather logs</a></li>
+                    <li class="active-accuracy"><a href="ADMINAccuracyReports.html" style="background: rgba(255,255,255,0.1); font-weight: bold;">Accuracy Reports</a></li>
+                    <li><a href="ADMINfeedback.html">Feedback</a></li>
+                    <li><a href="ADMINsettings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="logs-page-header">
+                <div>
+                    <h1>Accuracy Reports</h1>
+                    <p class="logs-page-subtitle">Crowdsourced feedback from users about weather forecast accuracy in their specific areas.</p>
+                </div>
+            </header>
+
+            <div class="logs-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User email</th>
+                            <th>Location</th>
+                            <th>Predicted</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="reportsBody"></tbody>
+                </table>
+            </div>
+            <div id="logsLoaderOverlay" class="logs-loader-overlay" aria-hidden="true">
+                <div class="logs-loader" aria-label="Loading"></div>
+                <div class="logs-loader-message">Loading accuracy reports…</div>
+            </div>
+        </main>
+    </div>
+    <script>
+        (function () {
+            var user = null;
+            try { user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null'); } catch (e) { user = null; }
+            if (!user || user.role !== 'admin') { window.location.href = 'Login.html'; return; }
+            
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            
+            function fmt(ts) {
+                try { return new Date(ts).toLocaleString(); } catch (e) { return ts || '—'; }
+            }
+            
+            function setLoading(active) {
+                var ov = document.getElementById('logsLoaderOverlay');
+                if (!ov) return;
+                if (active) { ov.classList.add('active'); }
+                else { ov.classList.remove('active'); }
+            }
+            
+            function loadReports() {
+                setLoading(true);
+                var base = getApiBase();
+                fetch(base + '/api/admin/weather/reports')
+                    .then(function (r) { return r.json(); })
+                    .then(function (resp) {
+                        var body = document.getElementById('reportsBody');
+                        if (!body) return;
+                        body.innerHTML = '';
+                        var list = (resp && resp.reports) ? resp.reports : [];
+                        
+                        if (list.length === 0) {
+                            body.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">No reports yet.</td></tr>';
+                        }
+                        
+                        list.forEach(function(c) {
+                            var row = document.createElement('tr');
+                            
+                            var tdTime = document.createElement('td');
+                            tdTime.textContent = fmt(c.createdAt);
+                            row.appendChild(tdTime);
+                            
+                            var tdEmail = document.createElement('td');
+                            tdEmail.textContent = c.email || '—';
+                            row.appendChild(tdEmail);
+                            
+                            var tdLoc = document.createElement('td');
+                            tdLoc.textContent = c.location || '—';
+                            row.appendChild(tdLoc);
+                            
+                            var tdPred = document.createElement('td');
+                            tdPred.textContent = c.predictedCondition || '—';
+                            row.appendChild(tdPred);
+                            
+                            var tdStatus = document.createElement('td');
+                            var span = document.createElement('span');
+                            span.className = 'accuracy-badge ' + (c.accuracy === 'accurate' ? 'accurate' : 'inaccurate');
+                            span.textContent = c.accuracy === 'accurate' ? 'Accurate' : 'Inaccurate';
+                            tdStatus.appendChild(span);
+                            row.appendChild(tdStatus);
+                            
+                            body.appendChild(row);
+                        });
+                        setLoading(false);
+                    })
+                    .catch(function () { 
+                        setLoading(false); 
+                    });
+            }
+            loadReports();
+            setInterval(loadReports, 60000);
+        })();
+    </script>
+</body>
+</html>

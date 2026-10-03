@@ -1,0 +1,124 @@
+/* ===== ADMIN FEEDBACK PAGE ===== */
+
+.feedback-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.feedback-header h1 {
+  font-size: 24px;
+}
+
+.feedback-subtitle {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.feedback-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.feedback-filters input,
+.feedback-filters select {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 0.9rem;
+}
+
+.feedback-filters input[type="search"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+.feedback-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.feedback-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 16px 18px 14px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+  border: 1px solid #e5e7eb;
+}
+
+.feedback-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.feedback-card-header h2 {
+  font-size: 1rem;
+  margin: 0 0 4px 0;
+}
+
+.feedback-role {
+  margin-left: 6px;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+[data-role="Farmer"] .feedback-role {
+  background: #ecfdf3;
+  color: #15803d;
+}
+
+.feedback-email {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.feedback-email i {
+  margin-right: 4px;
+}
+
+.feedback-card-header time {
+  font-size: 0.8rem;
+  color: #6b7280;
+  white-space: nowrap;
+}
+
+.feedback-subject {
+  font-size: 0.9rem;
+  margin-bottom: 6px;
+}
+
+.feedback-body {
+  font-size: 0.9rem;
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .feedback-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .feedback-filters {
+    flex-direction: column;
+  }
+
+  .feedback-filters input,
+  .feedback-filters select {
+    width: 100%;
+  }
+}
+

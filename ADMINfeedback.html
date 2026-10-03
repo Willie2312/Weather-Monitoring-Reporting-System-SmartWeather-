@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Feedback</title>
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="admin-feedback.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="NavbarDivContainer">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+                Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+            </h1>
+
+            <nav class="NavbarContainer" aria-label="Admin navigation">
+                <ul id="navbars">
+                    <li><a href="AdminDashboard.html">Dashboard</a></li>
+                    <li><a href="ADMINusers.html">Users</a></li>
+                    <li><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                    <li><a href="ADMINGeneralUserAdvice.html">G‑Users Advice</a></li>
+                    <li><a href="ADMINWeatherlogs.html">Weather logs</a></li>
+                    <li class="active5"><a href="ADMINfeedback.html">Feedback</a></li>
+                    <li><a href="ADMINsettings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="feedback-header">
+                <div>
+                    <h1>Feedback</h1>
+                    <p class="feedback-subtitle">Messages sent by farmers and general users via email about the SmartWeather system.</p>
+                </div>
+            </header>
+
+            <section class="feedback-filters" aria-label="Feedback filters">
+                <input type="search" placeholder="Search by name, email or subject..." aria-label="Search feedback">
+                <select aria-label="User type">
+                    <option>All user types</option>
+                    <option>Farmer</option>
+                    <option>General user</option>
+                </select>
+            </section>
+
+            <div class="users-table-wrapper" aria-label="Feedback list">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Subject</th>
+                        </tr>
+                    </thead>
+                    <tbody id="feedbackBody"></tbody>
+                </table>
+            </div>
+            <script>
+                (function () {
+                    var user = null;
+                    try { user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null'); } catch (e) { user = null; }
+                    if (!user || user.role !== 'admin') { window.location.href = 'Login.html'; return; }
+                    function getApiBase() {
+                        var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                        if (origin && /^https?:\/\//i.test(origin)) return origin;
+                        return 'http://localhost:4000';
+                    }
+                    function fmt(ts) {
+                        try { return new Date(ts).toLocaleString(); } catch (e) { return ts || '—'; }
+                    }
+                    function loadFeedback() {
+                        var bases = [getApiBase(), 'http://localhost:4100', 'http://localhost:4000'];
+                        var i = 0;
+                        function attempt() {
+                            var b = bases[i++];
+                            if (!b) {
+                                var body = document.getElementById('feedbackBody');
+                                if (body) body.innerHTML = '';
+                                return;
+                            }
+                            fetch(b + '/api/admin/feedback')
+                                .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+                                .then(function (resp) {
+                                    if (!resp.ok || !resp.body) { attempt(); return; }
+                                    var body = document.getElementById('feedbackBody');
+                                    if (!body) return;
+                                    body.innerHTML = '';
+                                    var list = (resp && resp.body && resp.body.feedback) ? resp.body.feedback : [];
+                                    for (var i2 = 0; i2 < list.length; i2++) {
+                                        var tr = document.createElement('tr');
+                                        var c = list[i2] || {};
+                                        function td(text) { var el = document.createElement('td'); el.textContent = text || '—'; return el; }
+                                        tr.appendChild(td(fmt(c.createdAt)));
+                                        tr.appendChild(td(c.email || '—'));
+                                        tr.appendChild(td(c.role || '—'));
+                                        tr.appendChild(td(c.subject || '—'));
+                                        body.appendChild(tr);
+                                    }
+                                })
+                                .catch(function () { attempt(); });
+                        }
+                        attempt();
+                    }
+                    loadFeedback();
+                    setInterval(loadFeedback, 60000);
+                    
+                })();
+            </script>
+        </main>
+    </div>
+</body>
+</html>

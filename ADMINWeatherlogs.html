@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Weather logs</title>
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="admin-weatherlogs.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="NavbarDivContainer">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+                Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+            </h1>
+
+            <nav class="NavbarContainer" aria-label="Admin navigation">
+                <ul id="navbars">
+                    <li><a href="AdminDashboard.html">Dashboard</a></li>
+                    <li><a href="ADMINusers.html">Users</a></li>
+                    <li><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                    <li><a href="ADMINGeneralUserAdvice.html">G‑Users Advice</a></li>
+                    <li class="active4"><a href="ADMINWeatherlogs.html">Weather logs</a></li>
+                    <li><a href="ADMINAccuracyReports.html">Accuracy Reports</a></li>
+                    <li><a href="ADMINfeedback.html">Feedback</a></li>
+                    <li><a href="ADMINsettings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="logs-page-header">
+                <div>
+                    <h1>Weather logs</h1>
+                    <p class="logs-page-subtitle">Historical weather data requested by users. This table contains weather details only.</p>
+                </div>
+            </header>
+
+            <section class="logs-filters" aria-label="Weather logs filters">
+                <input type="search" placeholder="Search by city or user..." aria-label="Search logs">
+                <input type="date" aria-label="From date">
+                <input type="date" aria-label="To date">
+                <select aria-label="Weather type">
+                    <option>All weather types</option>
+                    <option>Clear</option>
+                    <option>Cloudy</option>
+                    <option>Rain</option>
+                    <option>Thunderstorm</option>
+                    <option>Windy</option>
+                </select>
+            </section>
+
+            <div class="logs-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Timestamp</th>
+                            <th>User email</th>
+                            <th>Role</th>
+                            <th>Location</th>
+                            <th>Temperature</th>
+                            <th>Humidity</th>
+                            <th>Wind</th>
+                            <th>Pressure</th>
+                            <th>Condition</th>
+                        </tr>
+                    </thead>
+                    <tbody id="logsBody"></tbody>
+                </table>
+            </div>
+            <div id="logsLoaderOverlay" class="logs-loader-overlay" aria-hidden="true">
+                <div class="logs-loader" aria-label="Loading"></div>
+                <div class="logs-loader-message">Loading weather logs…</div>
+            </div>
+        </main>
+    </div>
+    <script>
+        (function () {
+            var user = null;
+            try { user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null'); } catch (e) { user = null; }
+            if (!user || user.role !== 'admin') { window.location.href = 'Login.html'; return; }
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            function fmt(ts) {
+                try { return new Date(ts).toLocaleString(); } catch (e) { return ts || '—'; }
+            }
+            function setLoading(active) {
+                var ov = document.getElementById('logsLoaderOverlay');
+                if (!ov) return;
+                if (active) { ov.classList.add('active'); document.body.setAttribute('aria-busy','true'); }
+                else { ov.classList.remove('active'); document.body.removeAttribute('aria-busy'); }
+            }
+            function loadLogs() {
+                setLoading(true);
+                var bases = [getApiBase(), 'http://localhost:4100', 'http://localhost:4000'];
+                var i = 0;
+                function attempt() {
+                    var b = bases[i++];
+                    if (!b) {
+                        var body = document.getElementById('logsBody');
+                        if (body) body.innerHTML = '';
+                        setLoading(false);
+                        return;
+                    }
+                    fetch(b + '/api/admin/weather/logs')
+                        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+                        .then(function (resp) {
+                            if (!resp.ok || !resp.body) { attempt(); return; }
+                            var body = document.getElementById('logsBody');
+                            if (!body) return;
+                            body.innerHTML = '';
+                            var list = (resp && resp.body && resp.body.logs) ? resp.body.logs : [];
+                            for (var i2 = 0; i2 < list.length; i2++) {
+                                var row = document.createElement('tr');
+                                var c = list[i2] || {};
+                                function td(text) { var el = document.createElement('td'); el.textContent = text || '—'; return el; }
+                                row.appendChild(td(fmt(c.createdAt)));
+                                row.appendChild(td(c.email || '—'));
+                                row.appendChild(td(c.role || '—'));
+                                row.appendChild(td(c.location || '—'));
+                                row.appendChild(td(c.temperature || '—'));
+                                row.appendChild(td(c.humidity || '—'));
+                                row.appendChild(td(c.wind || '—'));
+                                row.appendChild(td(c.pressure || '—'));
+                                row.appendChild(td(c.condition || '—'));
+                                body.appendChild(row);
+                            }
+                            setLoading(false);
+                        })
+                        .catch(function () { attempt(); });
+                }
+                attempt();
+            }
+            loadLogs();
+            setInterval(loadLogs, 60000);
+        })();
+    </script>
+</body>
+</html>

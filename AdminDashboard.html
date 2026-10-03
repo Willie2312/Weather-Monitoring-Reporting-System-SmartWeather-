@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard – Smart Weather</title>
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- Sidebar navigation -->
+        <aside class="NavbarDivContainer">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+                Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+            </h1>
+
+            <nav class="NavbarContainer" aria-label="Admin navigation">
+                <h2 class="sidebar-title">Dashboard</h2>
+                <ul id="navbars">
+                    <li><a href="ADMINusers.html">Users</a></li>
+                    <li><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                    <li><a href="ADMINGeneralUserAdvice.html">G‑Users Advice</a></li>
+                    <li><a href="ADMINWeatherlogs.html">Weather logs</a></li>
+                    <li><a href="ADMINAccuracyReports.html">Accuracy Reports</a></li>
+                    <li><a href="ADMINfeedback.html">Feedback</a></li>
+                    <li><a href="ADMINsettings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+<img src="" alt="">
+
+        <!-- Main content -->
+        <main class="main-content">
+            <h1>
+                <span>Admin dashboard</span>
+                <span class="admin-actions">
+                    <button id="changePwOpenBtn" class="btn-primary">Change password</button>
+                    <span id="logout"><button id="logoutb">Logout</button></span>
+                </span>
+            </h1>
+
+            <!-- Stat cards -->
+            <section aria-label="Key statistics">
+                <div id="Divspan">
+                    <div id="space">
+                        <span><i class="fa-solid fa-globe"></i></span>
+                        <span>Weather requests</span>
+                        <p>Amount <span id="statWeather">—</span></p>
+                    </div>
+                    <div id="space">
+                        <span><i class="fa-solid fa-users"></i></span>
+                        <span>General users</span>
+                        <p><span id="statUsers">—</span></p>
+                    </div>
+                    <div id="space">
+                        <span><i class="fa-solid fa-tractor"></i></span>
+                        <span>Farmers</span>
+                        <p><span id="statFarmers">—</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent weather logs -->
+            <section class="admin-section" aria-labelledby="recent-logs-heading">
+                <div class="admin-section-header">
+                    <h2 id="recent-logs-heading">Recent weather logs</h2>
+                    <div class="admin-section-actions">
+                        <button id="viewAllWeatherLogsBtn">View all weather logs</button>
+                    </div>
+                </div>
+                <div class="logs-table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Timestamp</th>
+                                <th>User email</th>
+                                <th>Role</th>
+                                <th>Location</th>
+                                <th>Temperature</th>
+                                <th>Humidity</th>
+                                <th>Wind</th>
+                                <th>Pressure</th>
+                                <th>Condition</th>
+                            </tr>
+                        </thead>
+                        <tbody id="dashboardLogsBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Farmer advice link -->
+            <section class="admin-section" aria-label="Farmer advice">
+                <div class="admin-section-header">
+                    <h2>Farmer advice</h2>
+                    <div class="admin-section-actions">
+                        <button id="openFarmerAdviceBtn" class="btn-primary btn-farmer" aria-label="Open farmer advice management">
+                            <i class="fa-solid fa-tractor" aria-hidden="true"></i>
+                            <span>Open farmer advice</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+            
+            <div id="dashLoaderOverlay" class="admin-loader-overlay" aria-hidden="true">
+                <div class="admin-loader" aria-label="Loading"></div>
+                <div class="admin-loader-message">Opening weather logs…</div>
+            </div>
+
+            <div id="adminPwModal" class="modal-overlay">
+                <div class="modal-card">
+                    <h3 class="modal-title">Change password</h3>
+                    <div class="modal-grid">
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-lock"></i>
+                            <input type="password" id="adminCurrentPw" class="pw-input" placeholder="Current password" autocomplete="current-password">
+                            <button type="button" class="pw-toggle" aria-label="Show password" data-target="adminCurrentPw"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-key"></i>
+                            <input type="password" id="adminNewPw" class="pw-input" placeholder="New password (min 6 chars)" autocomplete="new-password">
+                            <button type="button" class="pw-toggle" aria-label="Show password" data-target="adminNewPw"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <div class="input-wrap">
+                            <i class="fa-solid fa-key"></i>
+                            <input type="password" id="adminConfirmPw" class="pw-input" placeholder="Confirm new password" autocomplete="new-password">
+                            <button type="button" class="pw-toggle" aria-label="Show password" data-target="adminConfirmPw"><i class="fa-solid fa-eye"></i></button>
+                        </div>
+                        <div class="modal-actions">
+                            <button id="adminPwCancel" type="button" class="btn-secondary">Cancel</button>
+                            <button id="adminChangePwBtn" type="button" class="btn-primary">Update password</button>
+                        </div>
+                        <p id="adminPwMsg" class="modal-msg" aria-live="polite"></p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script>
+        (function () {
+            var user = null;
+            try { user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null'); } catch (e) { user = null; }
+            if (!user || user.role !== 'admin') {
+                window.location.href = 'Login.html';
+                return;
+            }
+            (function () {
+                function getApiBase() {
+                    var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                    if (origin && /^https?:\/\//i.test(origin)) return origin;
+                    return 'http://localhost:4000';
+                }
+                function exitKiosk() {
+                    var base = getApiBase();
+                    try { fetch(base + '/api/kiosk/exit', { method: 'POST' }).catch(function(){}); } catch (e) {}
+                    setTimeout(function () {
+                        try { window.close(); } catch (e) {}
+                        setTimeout(function () {
+                            try { var w = window.open('', '_self'); if (w) w.close(); } catch (e) {}
+                        }, 120);
+                    }, 180);
+                }
+                window.addEventListener('keydown', function (e) {
+                    var k = e.key || e.code || '';
+                    if (k === 'Escape' || k === 'Esc') {
+                        e.preventDefault();
+                        exitKiosk();
+                    }
+                });
+            })();
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            function loadStats() {
+                var base = getApiBase();
+                fetch(base + '/api/admin/stats')
+                    .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+                    .then(function (resp) {
+                        var s = (resp && resp.body && resp.body.stats) ? resp.body.stats : null;
+                        var usersEl = document.getElementById('statUsers');
+                        var farmersEl = document.getElementById('statFarmers');
+                        var weatherEl = document.getElementById('statWeather');
+                        if (s) {
+                            if (usersEl) usersEl.textContent = s.general;
+                            if (farmersEl) farmersEl.textContent = s.farmers;
+                            if (weatherEl) weatherEl.textContent = s.weatherRequests;
+                        } else {
+                            if (usersEl) usersEl.textContent = '—';
+                            if (farmersEl) farmersEl.textContent = '—';
+                            if (weatherEl) weatherEl.textContent = '—';
+                        }
+                    })
+                    .catch(function () {
+                        var usersEl = document.getElementById('statUsers');
+                        var farmersEl = document.getElementById('statFarmers');
+                        var weatherEl = document.getElementById('statWeather');
+                        if (usersEl) usersEl.textContent = '—';
+                        if (farmersEl) farmersEl.textContent = '—';
+                        if (weatherEl) weatherEl.textContent = '—';
+                    });
+            }
+            loadStats();
+            setInterval(loadStats, 60000);
+            var logsBtn = document.getElementById('viewAllWeatherLogsBtn');
+            if (logsBtn) {
+                logsBtn.addEventListener('click', function () {
+                    var ov = document.getElementById('dashLoaderOverlay');
+                    if (ov) {
+                        ov.classList.add('active');
+                        document.body.setAttribute('aria-busy','true');
+                        setTimeout(function(){ window.location.href = 'ADMINWeatherlogs.html'; }, 50);
+                    } else {
+                        window.location.href = 'ADMINWeatherlogs.html';
+                    }
+                });
+            }
+            var openFarmerAdviceBtn = document.getElementById('openFarmerAdviceBtn');
+            if (openFarmerAdviceBtn) {
+                openFarmerAdviceBtn.addEventListener('click', function () {
+                    window.location.href = 'ADMINfarmingAdvice.html';
+                });
+            }
+            function fmt(ts) {
+                try { return new Date(ts).toLocaleString(); } catch (e) { return ts || '—'; }
+            }
+            function loadRecentLogs() {
+                var base = getApiBase();
+                fetch(base + '/api/admin/weather/logs')
+                  .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+                  .then(function (resp) {
+                      var body = document.getElementById('dashboardLogsBody');
+                      if (!body) return;
+                      body.innerHTML = '';
+                      var list = (resp && resp.body && resp.body.logs) ? resp.body.logs : [];
+                      for (var i = 0; i < list.length && i < 5; i++) {
+                          var c = list[i] || {};
+                          var tr = document.createElement('tr');
+                          function td(text) { var el = document.createElement('td'); el.textContent = text || '—'; return el; }
+                          tr.appendChild(td(fmt(c.createdAt)));
+                          tr.appendChild(td(c.email || '—'));
+                          tr.appendChild(td(c.role || '—'));
+                          tr.appendChild(td(c.location || '—'));
+                          tr.appendChild(td(c.temperature || '—'));
+                          tr.appendChild(td(c.humidity || '—'));
+                          tr.appendChild(td(c.wind || '—'));
+                          tr.appendChild(td(c.pressure || '—'));
+                          tr.appendChild(td(c.condition || '—'));
+                          body.appendChild(tr);
+                      }
+                  })
+                  .catch(function () {
+                      var body = document.getElementById('dashboardLogsBody');
+                      if (body) body.innerHTML = '';
+                  });
+            }
+            loadRecentLogs();
+            setInterval(loadRecentLogs, 60000);
+            function setPwMsg(msg, ok) {
+                var el = document.getElementById('adminPwMsg');
+                if (el) { el.textContent = msg || ''; el.style.color = ok ? 'green' : 'red'; }
+            }
+            function bindChangePassword() {
+                var openBtn = document.getElementById('changePwOpenBtn');
+                var modal = document.getElementById('adminPwModal');
+                var cancelBtn = document.getElementById('adminPwCancel');
+                var updateBtn = document.getElementById('adminChangePwBtn');
+                if (openBtn && modal) {
+                    openBtn.addEventListener('click', function () { modal.classList.add('active'); setPwMsg('', true); });
+                }
+                if (cancelBtn && modal) {
+                    cancelBtn.addEventListener('click', function () { modal.classList.remove('active'); });
+                }
+                if (modal) {
+                    modal.addEventListener('click', function (e) {
+                        if (e.target === modal) modal.classList.remove('active');
+                    });
+                }
+                if (updateBtn) {
+                    updateBtn.addEventListener('click', function () {
+                        var cur = document.getElementById('adminCurrentPw');
+                        var nw = document.getElementById('adminNewPw');
+                        var cf = document.getElementById('adminConfirmPw');
+                        var current = cur && cur.value ? cur.value : '';
+                        var newer = nw && nw.value ? nw.value : '';
+                        var confirm = cf && cf.value ? cf.value : '';
+                        if (!current || !newer || !confirm) { setPwMsg('Enter all fields', false); return; }
+                        if (newer.length < 6) { setPwMsg('New password too short', false); return; }
+                        if (newer !== confirm) { setPwMsg('New password and confirm must match', false); return; }
+                        var base = getApiBase();
+                        fetch(base + '/api/admin/password/change', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ currentPassword: current, newPassword: newer })
+                        }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+                        .then(function (resp) {
+                            if (resp.ok && resp.body && resp.body.ok) {
+                                setPwMsg('Password updated', true);
+                                if (cur) cur.value = ''; if (nw) nw.value = ''; if (cf) cf.value = '';
+                                setTimeout(function () { if (modal) modal.classList.remove('active'); }, 800);
+                            } else {
+                                setPwMsg((resp.body && resp.body.error) ? resp.body.error : 'Update failed', false);
+                            }
+                        }).catch(function () { setPwMsg('Cannot reach server', false); });
+                    });
+                }
+                var toggles = document.querySelectorAll('.pw-toggle');
+                for (var i = 0; i < toggles.length; i++) {
+                    (function (btn) {
+                        var targetId = btn.getAttribute('data-target');
+                        var inp = document.getElementById(targetId);
+                        if (!inp) return;
+                        btn.addEventListener('click', function () {
+                            var show = inp.type === 'password';
+                            inp.type = show ? 'text' : 'password';
+                            var icon = btn.querySelector('i');
+                            if (icon) {
+                                icon.classList.toggle('fa-eye', !show);
+                                icon.classList.toggle('fa-eye-slash', show);
+                            }
+                            btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+                            btn.setAttribute('title', show ? 'Hide password' : 'Show password');
+                        });
+                    })(toggles[i]);
+                }
+            }
+            var logoutBtn = document.getElementById('logoutb');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function () {
+                    var ok = confirm('Are you sure you want to logout?');
+                    if (!ok) return;
+                    try { localStorage.removeItem('smartWeather_currentUser'); } catch (e) {}
+                    window.location.href = 'Login.html';
+                });
+            }
+            bindChangePassword();
+        })();
+    </script>
+</body>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Weather – Real-time weather & farming advice</title>
+    <link rel="stylesheet" href="HomePage.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body class="home-body">
+    <div id="network-status" class="hidden" aria-live="polite"></div>
+
+    <header class="home-nav">
+        <a href="HomePage.html" class="home-logo">
+            <i class="fa-solid fa-cloud"></i>
+            <span>Smart<span class="accent">Weather</span></span>
+        </a>
+
+        <button type="button" class="home-menu-btn" id="homeMenuBtn" aria-label="Open menu" aria-expanded="false">
+            <i class="fa-solid fa-bars"></i>
+        </button>
+
+        <ul class="home-links" id="homeLinks">
+            <li><a href="HomePage.html" class="active">Home</a></li>
+            <li><a href="About.html">About</a></li>
+            <li><a href="Login.html">Login</a></li>
+        </ul>
+    </header>
+
+    <section class="home-hero">
+        <div class="home-hero-text">
+            <h1>Smart weather for smart decisions</h1>
+            <p>
+                Track real-time weather updates, receive instant alerts,
+                and get intelligent farming advice tailored to your crops.
+            </p>
+            <div class="home-hero-btns">
+                <a href="SignIn.html" class="home-btn home-btn-primary">Get started</a>
+            </div>
+        </div>
+        <div class="home-hero-img">
+            <img src="images/Weather img4.jfif" alt="Weather illustration">
+        </div>
+    </section>
+
+    <section class="home-features">
+        <h2 class="home-section-title">Key features</h2>
+        <div class="home-features-grid">
+            <div class="home-card">
+                <i class="fa-solid fa-cloud-showers-heavy"></i>
+                <h3>Real-time updates</h3>
+                <p>Accurate, up-to-date weather information whenever you need it.</p>
+            </div>
+            <div class="home-card">
+                <i class="fa-solid fa-seedling"></i>
+                <h3>Farming advice</h3>
+                <p>Weather-based recommendations to support your crops.</p>
+            </div>
+            <div class="home-card">
+                <i class="fa-solid fa-bell"></i>
+                <h3>Instant alerts</h3>
+                <p>Get notified about important weather changes.</p>
+            </div>
+            <div class="home-card">
+                <i class="fa-solid fa-chart-simple"></i>
+                <h3>Admin analytics</h3>
+                <p>Monitor usage and weather logs in one place.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="home-login-section">
+        <h2 class="home-section-title">Login options</h2>
+        <div class="home-login-btns">
+            <a href="Login.html" class="home-btn home-btn-light">Farmer login</a>
+            <a href="Login.html" class="home-btn home-btn-light">General user login</a>
+        </div>
+    </section>
+
+    <footer class="home-footer">
+        <p>© 2026 Smart Weather. All rights reserved.</p>
+    </footer>
+
+    <script>
+        (function () {
+            var menuBtn = document.getElementById('homeMenuBtn');
+            var links = document.getElementById('homeLinks');
+            if (menuBtn && links) {
+                menuBtn.addEventListener('click', function () {
+                    var open = links.classList.toggle('open');
+                    menuBtn.setAttribute('aria-expanded', open);
+                });
+            }
+        })();
+        (function () {
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            function exitKiosk() {
+                var base = getApiBase();
+                try { fetch(base + '/api/kiosk/exit', { method: 'POST' }).catch(function(){}); } catch (e) {}
+                setTimeout(function () {
+                    try { window.close(); } catch (e) {}
+                    setTimeout(function () {
+                        try { var w = window.open('', '_self'); if (w) w.close(); } catch (e) {}
+                    }, 120);
+                }, 180);
+            }
+            window.addEventListener('keydown', function (e) {
+                var k = e.key || e.code || '';
+                if (k === 'Escape' || k === 'Esc') {
+                    e.preventDefault();
+                    exitKiosk();
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

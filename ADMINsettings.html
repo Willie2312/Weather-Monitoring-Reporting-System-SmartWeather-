@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Settings</title>
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="admin-settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="NavbarDivContainer">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+                Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+            </h1>
+
+            <nav class="NavbarContainer" aria-label="Admin navigation">
+                <ul id="navbars">
+                    <li><a href="AdminDashboard.html">Dashboard</a></li>
+                    <li><a href="ADMINusers.html">Users</a></li>
+                    <li><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                    <li><a href="ADMINGeneralUserAdvice.html">G‑Users Advice</a></li>
+                    <li><a href="ADMINWeatherlogs.html">Weather logs</a></li>
+                    <li><a href="ADMINfeedback.html">Feedback</a></li>
+                    <li class="active6"><a href="ADMINsettings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <header class="settings-page-header">
+                <div>
+                    <h1>Settings</h1>
+                    <p class="settings-page-subtitle">Manage application configuration, notifications, weather API, and security options.</p>
+                </div>
+            </header>
+
+            <section class="settings-grid" aria-label="Admin settings">
+                <!-- Profile & account -->
+                <article class="settings-card">
+                    <h2><i class="fa-solid fa-user-gear"></i> Profile &amp; account</h2>
+                    <p>Update admin contact information used across the system.</p>
+                    <div class="settings-group">
+                        <label>
+                            Admin name
+                            <input type="text" placeholder="Admin name">
+                        </label>
+                        <label>
+                            Contact email
+                            <input type="email" placeholder="admin@example.com">
+                        </label>
+                    </div>
+                </article>
+
+                <!-- Notifications & alerts -->
+                <article class="settings-card">
+                    <h2><i class="fa-solid fa-bell"></i> Notifications &amp; alerts</h2>
+                    <p>Control how and when system alerts are delivered.</p>
+                    <div class="settings-group">
+                        <div class="settings-toggle-row">
+                            <span>Email alerts for severe weather</span>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="settings-toggle-row">
+                            <span>Daily summary email to admin</span>
+                            <input type="checkbox">
+                        </div>
+                        <div class="settings-toggle-row">
+                            <span>Allow users to subscribe to alerts</span>
+                            <input type="checkbox" checked>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- Weather data / API -->
+                <article class="settings-card">
+                    <h2><i class="fa-solid fa-cloud-sun"></i> Weather data / API</h2>
+                    <p>Configure the weather provider and default units.</p>
+                    <div class="settings-group">
+                        <label>
+                            Provider
+                            <select>
+                                <option>OpenWeather (default)</option>
+                                <option>Other provider</option>
+                            </select>
+                        </label>
+                        <label>
+                            Temperature units
+                            <select>
+                                <option>°C (Celsius)</option>
+                                <option>°F (Fahrenheit)</option>
+                            </select>
+                        </label>
+                    </div>
+                </article>
+
+                <!-- Security & access -->
+                <article class="settings-card">
+                    <h2><i class="fa-solid fa-lock"></i> Security &amp; access</h2>
+                    <p>Basic options related to admin and user access.</p>
+                    <div class="settings-group">
+                        <div class="settings-toggle-row">
+                            <span>Require strong passwords for new users</span>
+                            <input type="checkbox" checked>
+                        </div>
+                        <div class="settings-toggle-row">
+                            <span>Allow password reset via email</span>
+                            <input type="checkbox" checked>
+                        </div>
+                    </div>
+                </article>
+
+                <!-- General preferences -->
+                <article class="settings-card">
+                    <h2><i class="fa-solid fa-gear"></i> General preferences</h2>
+                    <p>Default behaviour and display preferences.</p>
+                    <div class="settings-group">
+                        <label>
+                            Default dashboard role
+                            <select>
+                                <option>Admin</option>
+                                <option>Farmer</option>
+                                <option>General user</option>
+                            </select>
+                        </label>
+                    </div>
+                </article>
+            </section>
+
+            <div class="settings-actions">
+                <button class="settings-btn-secondary">Cancel</button>
+                <button class="settings-btn-primary">Save changes</button>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

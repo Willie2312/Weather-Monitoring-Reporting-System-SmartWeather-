@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help – Farmer Dashboard | Smart Weather</title>
+    <link rel="stylesheet" href="Home.css">
+    <link rel="stylesheet" href="FarmerDashboard.css">
+    <link rel="stylesheet" href="FarmerHelp.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body class="farmer-dashboard">
+    <header>
+        <div class="StaticBar">
+            <h1 id="name">
+                <a href="FarmerDashboard.html" class="help-logo-link"><i class="fa-solid fa-cloud fa-xl" style="color: rgb(86, 167, 228);"></i> Smart<i style="font-weight: bold;"> <span style="color: #fef08a;">W</span>eather</i></a>
+            </h1>
+            <span class="farmer-nav-row">
+                <a href="FarmerDashboard.html" class="help-back-btn"><i class="fa-solid fa-arrow-left"></i> Back to dashboard</a>
+            </span>
+        </div>
+    </header>
+
+    <main class="farmer-main help-main">
+        <div class="help-header">
+            <h1 class="help-title"><i class="fa-solid fa-circle-question"></i> Help</h1>
+            <p class="help-intro">Quick answers to common questions about the Farmer Dashboard and how to use weather information for your farm.</p>
+        </div>
+
+        <section class="help-section" id="using-dashboard">
+            <h2><i class="fa-solid fa-table-cells"></i> Using the dashboard</h2>
+            <p>The dashboard has three main areas:</p>
+            <ul>
+                <li><strong>Today</strong> — Current day’s weather: temperature, humidity, wind, and air pressure in one place.</li>
+                <li><strong>Hourly forecast</strong> — Four time slots (e.g. 6 AM, 12 PM, 6 PM, 9 PM) so you can plan your day.</li>
+                <li><strong>7-day forecast</strong> — The week ahead (Today, Tomorrow, then day names) for planning work and planting.</li>
+            </ul>
+        </section>
+
+        <section class="help-section" id="search-location">
+            <h2><i class="fa-solid fa-magnifying-glass-location"></i> Search & location</h2>
+            <p><strong>Search city:</strong> Type the name of your city or town and press Enter. The weather shown will update for that place.</p>
+            <p><strong>Use my location:</strong> Click this to use your device’s location so you see weather for where you are. You may need to allow location access in your browser.</p>
+            <p>Weather is location-specific, so using the correct city or “Use my location” gives you the most accurate information for your farm.</p>
+        </section>
+
+        <section class="help-section" id="understanding-weather">
+            <h2><i class="fa-solid fa-sun"></i> Understanding today’s weather</h2>
+            <p>In the <strong>Today</strong> card you see four values. Here’s what they mean and why they matter for farming:</p>
+            <ul class="help-list-strong">
+                <li><strong>Temperature</strong> — How hot or cold it is. Helps you decide when to work, irrigate, or protect crops from frost or heat.</li>
+                <li><strong>Humidity</strong> — Amount of moisture in the air. High humidity can increase disease risk; low humidity can increase water stress. Useful for timing spraying and irrigation.</li>
+                <li><strong>Wind</strong> — Wind speed and strength. Strong wind can damage plants, affect spraying, and increase evaporation. Use it to plan spraying, staking, and harvesting.</li>
+                <li><strong>Air pressure</strong> — Often linked to rain or clear skies. Falling pressure can mean rain coming; stable pressure often means more settled weather.</li>
+            </ul>
+        </section>
+
+        <section class="help-section" id="hourly-forecast">
+            <h2><i class="fa-solid fa-clock"></i> Hourly forecast</h2>
+            <p>The four hourly cards show expected weather at <strong>6 AM, 12 PM, 6 PM, and 9 PM</strong> for today. Use them to:</p>
+            <ul>
+                <li>Choose the best time of day for fieldwork (e.g. avoid midday heat or early morning wetness).</li>
+                <li>Plan spraying when wind is low and conditions are suitable.</li>
+                <li>Decide when to irrigate or when rain might reduce the need.</li>
+                <li>Prepare for temperature changes from morning to evening.</li>
+            </ul>
+        </section>
+
+        <section class="help-section" id="seven-day">
+            <h2><i class="fa-solid fa-calendar-days"></i> 7-day forecast</h2>
+            <p>The first card is <strong>Today</strong>, the second is <strong>Tomorrow</strong>, then the following days (e.g. Wed, Thu, Fri…). Use the week ahead to:</p>
+            <ul>
+                <li>Plan planting or harvesting around dry or wet spells.</li>
+                <li>Schedule irrigation or drainage work.</li>
+                <li>Prepare for frost, heat, or storms.</li>
+            </ul>
+        </section>
+
+        <section class="help-section" id="alerts">
+            <h2><i class="fa-solid fa-bell"></i> Subscribe to alerts</h2>
+            <p>Click <strong>Subscribe to alerts</strong> on the dashboard to sign up for weather notifications. You can enter a city or use “Use my current location” so alerts match your area. Alerts help you get important updates (e.g. heavy rain, strong wind, or frost) so you can act in time.</p>
+        </section>
+
+        <section class="help-section" id="farming-advice">
+            <h2><i class="fa-solid fa-leaf"></i> Farming advice</h2>
+            <p>The <strong>Farming advice</strong> section shows tips and alerts based on current and forecast weather. Check it regularly for suggestions on irrigation, pest and disease risk, and best times for fieldwork. Advice is meant to support your decisions; always combine it with your own experience and local conditions.</p>
+        </section>
+
+        <section class="help-section help-contact" id="contact">
+            <h2><i class="fa-solid fa-envelope"></i> Still need help?</h2>
+            <p>If something isn’t clear or you have a question or suggestion, get in touch:</p>
+            <p class="help-contact-link"><a href="mailto:support@smartweather.example.com"><i class="fa-solid fa-at"></i> support@smartweather.example.com</a></p>
+            <p class="help-contact-note">Replace this email with your real support address. We’ll do our best to respond as soon as we can.</p>
+        </section>
+    </main>
+
+    <footer class="farmer-footer-wave" aria-hidden="true">
+        <svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,100 C150,50 350,150 500,100 C650,50 850,150 1000,100" fill="none" stroke="#2d8a3e" stroke-width="2" opacity="0.4">
+                <animate attributeName="d" dur="6s" repeatCount="indefinite"
+                    values="M0,100 C150,50 350,150 500,100 C650,50 850,150 1000,100; M0,100 C150,70 350,130 500,100 C650,70 850,130 1000,100; M0,100 C150,50 350,150 500,100 C650,50 850,150 1000,100"/>
+            </path>
+            <path d="M0,120 C150,170 350,70 500,120 C650,170 850,70 1000,120" fill="none" stroke="#1a5f2a" stroke-width="2" opacity="0.3">
+                <animate attributeName="d" dur="6s" repeatCount="indefinite"
+                    values="M0,120 C150,170 350,70 500,120 C650,170 850,70 1000,120; M0,120 C150,150 350,90 500,120 C650,150 850,90 1000,120"/>
+            </path>
+        </svg>
+    </footer>
+</body>
+</html>

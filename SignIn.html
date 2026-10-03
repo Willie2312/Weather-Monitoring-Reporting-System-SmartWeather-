@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in – Smart Weather</title>
+    <link rel="stylesheet" href="SignIn.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body class="signin-body">
+    <a href="HomePage.html" class="signin-back"><i class="fa-solid fa-arrow-left"></i> Back</a>
+
+    <div class="signin-wrap">
+        <div class="signin-card">
+            <div class="signin-header">
+                <p class="signin-welcome">Welcome to</p>
+                <h1 class="signin-logo"><i class="fa-solid fa-cloud fa-xl"></i> Smart<span class="accent">Weather</span></h1>
+                <p class="signin-title">Sign-in form</p>
+            </div>
+
+            <div id="signin-error" class="signin-error" role="alert" hidden></div>
+
+            <form class="signin-form" action="" method="post" id="signinForm">
+                <div class="input-wrap">
+                    <i class="fa-solid fa-user"></i>
+                    <input type="text" name="FullName" id="FullName" placeholder="Full name" required autocomplete="name">
+                </div>
+
+                <div class="input-wrap">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" name="Email" id="Email" placeholder="Email" required autocomplete="email">
+                </div>
+
+                <div class="input-wrap input-wrap-password">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" id="Password" maxlength="12" placeholder="Password" required autocomplete="new-password">
+                    <button type="button" class="input-toggle" id="Password-Open" aria-label="Show password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+
+                <div class="input-wrap input-wrap-password">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" name="password" id="Confirm-password" maxlength="12" placeholder="Confirm password" required autocomplete="new-password">
+                    <button type="button" class="input-toggle" id="ConfirmPassword-Open" aria-label="Show confirm password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+
+                <div class="input-wrap">
+                    <label for="Country" class="sr-only">Country</label>
+                    <select name="Country" id="options" aria-label="Country">
+                        <option value="Sierra Leone">Sierra Leone</option>
+                        <option value="Guinea">Guinea</option>
+                        <option value="Liberia">Liberia</option>
+                        <option value="Nigeria">Nigeria</option>
+                        <option value="Ghana">Ghana</option>
+                        <option value="Guinea-Bissau">Guinea-Bissau</option>
+                    </select>
+                </div>
+
+                <fieldset class="signin-fieldset">
+                    <legend>Gender</legend>
+                    <label class="radio-label">
+                        <input type="radio" name="Gender" value="Male" id="GenderM" required>
+                        <span>Male</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="Gender" value="Female" id="GenderFF">
+                        <span>Female</span>
+                    </label>
+                </fieldset>
+
+                <fieldset class="signin-fieldset">
+                    <legend>Sign in as</legend>
+                    <label class="radio-label">
+                        <input type="radio" name="purpose" value="general" id="purpose1" required>
+                        <span>General user</span>
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="purpose" value="farmer" id="purpose2">
+                        <span>Farmer</span>
+                    </label>
+                </fieldset>
+
+                <button type="submit" class="signin-submit" id="Sbutton">Sign in now</button>
+            </form>
+
+            <p class="signin-footer">Already have an account? <a href="Login.html" id="LoginNav">Login</a></p>
+        </div>
+    </div>
+
+    <div id="signinLoaderOverlay" class="signin-loader-overlay" aria-live="polite" aria-busy="true">
+        <div class="signin-loader"></div>
+        <div id="signinLoaderMessage" class="signin-loader-message">you have successfily sign in</div>
+    </div>
+
+    <script>
+        (function () {
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            function exitKiosk() {
+                var base = getApiBase();
+                try { fetch(base + '/api/kiosk/exit', { method: 'POST' }).catch(function(){}); } catch (e) {}
+                setTimeout(function () {
+                    try { window.close(); } catch (e) {}
+                    setTimeout(function () {
+                        try { var w = window.open('', '_self'); if (w) w.close(); } catch (e) {}
+                    }, 120);
+                }, 180);
+            }
+            window.addEventListener('keydown', function (e) {
+                var k = e.key || e.code || '';
+                if (k === 'Escape' || k === 'Esc') {
+                    e.preventDefault();
+                    exitKiosk();
+                }
+            });
+        })();
+        function setupPasswordToggle(btnId, inputId) {
+            var btn = document.getElementById(btnId);
+            var input = document.getElementById(inputId);
+            if (!btn || !input) return;
+            btn.addEventListener('click', function () {
+                var show = input.type === 'password';
+                input.type = show ? 'text' : 'password';
+                var icon = btn.querySelector('i');
+                if (icon) {
+                    icon.classList.toggle('fa-eye', !show);
+                    icon.classList.toggle('fa-eye-slash', show);
+                }
+                btn.setAttribute('aria-label', show ? 'Hide password' : 'Show password');
+            });
+        }
+        setupPasswordToggle('Password-Open', 'Password');
+        setupPasswordToggle('ConfirmPassword-Open', 'Confirm-password');
+
+        var form = document.getElementById('signinForm');
+        var errorEl = document.getElementById('signin-error');
+
+        function showError(msg) {
+            if (!errorEl) return;
+            errorEl.textContent = msg;
+            errorEl.hidden = false;
+        }
+
+        function clearError() {
+            if (errorEl) {
+                errorEl.textContent = '';
+                errorEl.hidden = true;
+            }
+        }
+
+        function clearInputErrors() {
+            [document.getElementById('Password'), document.getElementById('Confirm-password')].forEach(function (el) {
+                if (el) el.classList.remove('error');
+            });
+        }
+        
+
+        function getApiBase() {
+            var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+            if (origin && /^https?:\/\//i.test(origin)) return origin;
+            return 'http://localhost:4000';
+        }
+        function showSigninSuccessAndNavigate(role) {
+            var overlay = document.getElementById('signinLoaderOverlay');
+            var msgEl = document.getElementById('signinLoaderMessage');
+            if (msgEl) msgEl.textContent = 'you have successfily sign in';
+            if (overlay) overlay.style.display = 'flex';
+            var href = role === 'farmer' ? 'FarmerDashboard.html' : 'GeneralUserDashboard.html';
+            setTimeout(function () { window.location.href = href; }, 800);
+        }
+        form.addEventListener('submit', function (e) {
+            e.preventDefault();
+            clearError();
+            clearInputErrors();
+
+            var nameEl = document.getElementById('FullName');
+            var emailEl = document.getElementById('Email');
+            var passEl = document.getElementById('Password');
+            var confirmEl = document.getElementById('Confirm-password');
+            var purpose = document.querySelector('input[name="purpose"]:checked');
+            var email = (emailEl && emailEl.value ? emailEl.value.trim().toLowerCase() : '');
+            var password = (passEl && passEl.value) || '';
+            var confirmPassword = (confirmEl && confirmEl.value) || '';
+            if (!email || email.indexOf('@') === -1) { showError('Enter a valid email that contains @.'); return; }
+            if (!password || !confirmPassword) { showError('Enter password and confirm password.'); return; }
+            if (password !== confirmPassword) {
+                showError('Password and Confirm password must match.');
+                if (passEl) passEl.classList.add('error');
+                if (confirmEl) confirmEl.classList.add('error');
+                return;
+            }
+            if (!purpose) { showError('Select General user or Farmer.'); return; }
+            var role = purpose.value;
+            var name = (nameEl && nameEl.value ? nameEl.value.trim() : email);
+            var base = getApiBase();
+            fetch(base + '/api/auth/register', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: email, name: name, role: role, password: password, country: (document.getElementById('options') || {}).value || '', gender: (document.getElementById('GenderM') && document.getElementById('GenderM').checked) ? 'Male' : ((document.getElementById('GenderFF') && document.getElementById('GenderFF').checked) ? 'Female' : '') })
+            }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j, status: r.status }; }); })
+            .then(function (resp) {
+                if (resp.ok && resp.body && resp.body.ok) {
+                    try { localStorage.setItem('smartWeather_currentUser', JSON.stringify({ email: email, role: role, name: name })); } catch (e) {}
+                    if (role === 'general') window.location.href = 'GeneralUserDashboard.html';
+                    else if (role === 'farmer') showSigninSuccessAndNavigate('farmer');
+                    else showError('Select a valid role.');
+                } else {
+                    if (resp.status === 409) showError('User already exists');
+                    else showError((resp.body && resp.body.error) ? resp.body.error : 'Registration failed');
+                }
+            }).catch(function () {
+                try { localStorage.setItem('smartWeather_currentUser', JSON.stringify({ email: email, role: role, name: name })); } catch (e) {}
+                if (role === 'general') window.location.href = 'GeneralUserDashboard.html';
+                else if (role === 'farmer') showSigninSuccessAndNavigate('farmer');
+                else showError('Select a valid role.');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About – Smart Weather</title>
+  <link rel="stylesheet" href="About.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body class="about-body">
+  <header class="about-nav">
+    <a href="HomePage.html" class="about-logo">
+      <i class="fa-solid fa-cloud"></i>
+      <span>Smart<span class="accent">Weather</span></span>
+    </a>
+
+    <button type="button" class="about-menu-btn" id="aboutMenuBtn" aria-label="Open menu" aria-expanded="false">
+      <i class="fa-solid fa-bars"></i>
+    </button>
+
+    <ul class="about-links" id="aboutLinks">
+      <li><a href="HomePage.html">Home</a></li>
+      <li><a href="About.html" class="active">About</a></li>
+      <li><a href="Login.html">Login</a></li>
+    </ul>
+  </header>
+
+  <section class="about-page-header">
+    <h1>About Smart Weather</h1>
+    <p>Bridging technology and agriculture through smart weather intelligence.</p>
+  </section>
+
+  <div class="about-content">
+    <section class="about-section">
+      <h2>Overview</h2>
+      <p>
+        Smart Weather is an innovative web application designed to help farmers
+        and citizens monitor weather conditions, receive instant alerts, and get
+        personalized farming advice based on accurate weather data.
+      </p>
+    </section>
+
+    <section class="about-section">
+      <h2>Our mission & vision</h2>
+      <div class="about-mission-grid">
+        <div class="about-card">
+          <i class="fa-solid fa-leaf"></i>
+          <h3>Our mission</h3>
+          <p>
+            To empower farmers with real-time weather insights and practical
+            agricultural advice that enhances productivity and reduces losses.
+          </p>
+        </div>
+        <div class="about-card">
+          <i class="fa-solid fa-lightbulb"></i>
+          <h3>Our vision</h3>
+          <p>
+            To build a connected and informed farming community through
+            accessible and reliable weather technology.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <h2>Key features</h2>
+      <ul class="about-feature-list">
+        <li><strong>Real-time weather updates:</strong> Accurate data from trusted weather APIs.</li>
+        <li><strong>Farming advice:</strong> Crop-specific recommendations based on weather conditions.</li>
+        <li><strong>Instant alerts:</strong> Notifications for rainfall, temperature changes and severe weather.</li>
+        <li><strong>Admin analytics:</strong> Usage tracking and performance monitoring tools.</li>
+      </ul>
+    </section>
+
+    <section class="about-section">
+      <h2>Why Smart Weather matters</h2>
+      <p>
+        Many farmers struggle to make informed decisions due to limited access to
+        reliable weather information. Smart Weather solves this by providing timely
+        and accurate data, helping users plan ahead and protect their livelihoods.
+      </p>
+    </section>
+
+    <section class="about-section">
+      <h2>Meet the developer</h2>
+      <div class="about-card">
+        <i class="fa-solid fa-user"></i>
+        <h3>Willie Kinney Kargba</h3>
+        <p>
+          A passionate Computer Science student dedicated to using technology
+          for sustainable development and agricultural improvement.
+        </p>
+      </div>
+    </section>
+
+    <section class="about-section">
+      <h2>Contact us</h2>
+      <div class="about-contact">
+        <p>Email: smartweather@info.com</p>
+        <p>Follow us on our social platforms for updates.</p>
+      </div>
+    </section>
+  </div>
+
+  <footer class="about-footer">
+    <p>© 2026 Smart Weather. All rights reserved.</p>
+  </footer>
+
+  <script>
+    (function () {
+      var menuBtn = document.getElementById('aboutMenuBtn');
+      var links = document.getElementById('aboutLinks');
+      if (menuBtn && links) {
+        menuBtn.addEventListener('click', function () {
+          var open = links.classList.toggle('open');
+          menuBtn.setAttribute('aria-expanded', open);
+        });
+      }
+    })();
+  </script>
+</body>
+</html>

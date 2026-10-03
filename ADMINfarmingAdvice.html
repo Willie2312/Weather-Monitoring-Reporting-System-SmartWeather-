@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Farming Advice</title>
+
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="admin-farming.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+
+<div class="admin-layout">
+
+    <!-- SIDEBAR -->
+    <aside class="NavbarDivContainer">
+        <h1 id="name">
+            <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+            Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+        </h1>
+
+        <nav class="NavbarContainer" aria-label="Admin navigation">
+            <ul id="navbars" class="sidebar-links">
+                <li><a href="AdminDashboard.html">Dashboard</a></li>
+                <li><a href="ADMINusers.html">Users</a></li>
+                <li class="active2"><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                <li><a href="ADMINGeneralUserAdvice.html">G-User Advice</a></li>
+                <li><a href="ADMINWeatherlogs.html">Weather Logs</a></li>
+                <li><a href="ADMINfeedback.html">Feedback</a></li>
+                <li><a href="ADMINsettings.html">Settings</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <div class="main-content">
+
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Farming Advice Management</h1>
+        </div>
+
+        <!-- Guidance -->
+        <p style="margin-bottom:16px;color:#6b7280;">Configure clear, short, actionable advice. Messages are applied automatically based on current weather and crop context.</p>
+
+        <!-- Automated Farmer Advice Configuration -->
+        <section class="admin-section" aria-labelledby="farmer-auto-advice-heading" style="margin-top:24px;">
+          <div class="admin-section-header">
+            <h2 id="farmer-auto-advice-heading">Automated farmer advice</h2>
+          </div>
+          <div class="admin-grid" style="max-width:800px;">
+            <h3 class="subsection-title" style="margin:0 0 8px;">Severity messages</h3>
+            <div class="input-wrap">
+              <label for="farAdvHigh" class="sr-only">High risk advice</label>
+              <i class="fa-solid fa-triangle-exclamation" style="color:#b91c1c;"></i>
+              <textarea id="farAdvHigh" rows="3" style="width:100%;min-height:64px;" placeholder="High risk advice" aria-describedby="farAdvHighCount" data-max="160" required></textarea>
+              <span id="farAdvHighCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="input-wrap">
+              <label for="farAdvModerate" class="sr-only">Moderate risk advice</label>
+              <i class="fa-solid fa-circle" style="color:#d97706;"></i>
+              <textarea id="farAdvModerate" rows="3" style="width:100%;min-height:64px;" placeholder="Moderate risk advice" aria-describedby="farAdvModerateCount" data-max="160" required></textarea>
+              <span id="farAdvModerateCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="input-wrap">
+              <label for="farAdvSafe" class="sr-only">Safe advice</label>
+              <i class="fa-solid fa-circle-check" style="color:#15803d;"></i>
+              <textarea id="farAdvSafe" rows="3" style="width:100%;min-height:64px;" placeholder="Safe advice" aria-describedby="farAdvSafeCount" data-max="160" required></textarea>
+              <span id="farAdvSafeCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <hr style="border:none;height:1px;background:#eee;margin:16px 0;">
+            <h3 class="subsection-title" style="margin:0 0 8px;">Condition‑specific messages</h3>
+            <div class="input-wrap">
+              <label for="farCondThunder" class="sr-only">Thunderstorm text</label>
+              <i class="fa-solid fa-bolt" style="color:#b91c1c;"></i>
+              <textarea id="farCondThunder" rows="3" style="width:100%;min-height:64px;" placeholder="Thunderstorm advice" aria-describedby="farCondThunderCount" data-max="160"></textarea>
+              <span id="farCondThunderCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="input-wrap">
+              <label for="farCondRain" class="sr-only">Rain text</label>
+              <i class="fa-solid fa-cloud-rain" style="color:#2563eb;"></i>
+              <textarea id="farCondRain" rows="3" style="width:100%;min-height:64px;" placeholder="Rain advice" aria-describedby="farCondRainCount" data-max="160"></textarea>
+              <span id="farCondRainCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="input-wrap">
+              <label for="farCondHeat" class="sr-only">Heat text</label>
+              <i class="fa-solid fa-temperature-high" style="color:#ea580c;"></i>
+              <textarea id="farCondHeat" rows="3" style="width:100%;min-height:64px;" placeholder="Heat advice" aria-describedby="farCondHeatCount" data-max="160"></textarea>
+              <span id="farCondHeatCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="input-wrap">
+              <label for="farCondWindModerate" class="sr-only">Moderate wind text</label>
+              <i class="fa-solid fa-wind" style="color:#6b7280;"></i>
+              <textarea id="farCondWindModerate" rows="3" style="width:100%;min-height:64px;" placeholder="Strong winds advice" aria-describedby="farCondWindModerateCount" data-max="160"></textarea>
+              <span id="farCondWindModerateCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="input-wrap">
+              <label for="farCondHumidityHigh" class="sr-only">High humidity text</label>
+              <i class="fa-solid fa-water" style="color:#0ea5e9;"></i>
+              <textarea id="farCondHumidityHigh" rows="3" style="width:100%;min-height:64px;" placeholder="High humidity advice" aria-describedby="farCondHumidityHighCount" data-max="160"></textarea>
+              <span id="farCondHumidityHighCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <hr style="border:none;height:1px;background:#eee;margin:16px 0;">
+            <h3 class="subsection-title" style="margin:0 0 8px;">Crop‑specific messages</h3>
+            <div class="input-wrap">
+              <label for="farCropRiceHumid" class="sr-only">Rice high humidity text</label>
+              <i class="fa-solid fa-seedling" style="color:#15803d;"></i>
+              <textarea id="farCropRiceHumid" rows="3" style="width:100%;min-height:64px;" placeholder="Rice high humidity advice" aria-describedby="farCropRiceHumidCount" data-max="160"></textarea>
+              <span id="farCropRiceHumidCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="input-wrap">
+              <label for="farCropMaizeHeat" class="sr-only">Maize high heat text</label>
+              <i class="fa-solid fa-plant-wilt" style="color:#d97706;"></i>
+              <textarea id="farCropMaizeHeat" rows="3" style="width:100%;min-height:64px;" placeholder="Maize high heat advice" aria-describedby="farCropMaizeHeatCount" data-max="160"></textarea>
+              <span id="farCropMaizeHeatCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+            </div>
+            <div class="admin-section-actions">
+              <button id="farSaveAdviceBtn" class="btn-primary">Save farmer advice</button>
+              <button id="farResetAdviceBtn" class="btn-secondary" type="button">Reset</button>
+              <span id="farAdviceSaveMsg" class="modal-msg" aria-live="polite"></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- Add/Edit Advice Modal -->
+        <div class="advice-modal-overlay" id="adviceModalOverlay">
+            <div class="advice-modal" role="dialog" aria-modal="true" aria-labelledby="adviceModalTitle">
+                <div class="advice-modal-header">
+                    <h2 id="adviceModalTitle">Add advice</h2>
+                    <button type="button" class="advice-modal-close" id="adviceModalClose" aria-label="Close dialog">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <form class="advice-form">
+                    <div class="advice-form-row">
+                        <label>
+                            Title
+                            <input type="text" id="adviceTitleInput" placeholder="Enter advice title...">
+                        </label>
+                    </div>
+
+                    <div class="advice-form-row advice-form-row--grid">
+                        <label>
+                            Category / Weather
+                            <select id="adviceCategoryInput">
+                                <option value="">Select...</option>
+                                <option value="Rainy Season">Rainy Season</option>
+                                <option value="Dry Season">Dry Season</option>
+                                <option value="High Temperature">High Temperature</option>
+                                <option value="Low Temperature">Low Temperature</option>
+                            </select>
+                        </label>
+                        <label>
+                            Crop (optional)
+                            <select id="adviceCropInput">
+                                <option value="">Any crop</option>
+                                <option value="Rice">Rice</option>
+                                <option value="Cassava">Cassava</option>
+                                <option value="Maize">Maize</option>
+                            </select>
+                        </label>
+                        <label>
+                            Status
+                            <select id="adviceStatusInput">
+                                <option value="Published">Published</option>
+                                <option value="Draft">Draft</option>
+                            </select>
+                        </label>
+                    </div>
+
+                    <div class="advice-form-row">
+                        <label>
+                            Advice
+                            <textarea id="adviceBodyInput" rows="4" placeholder="Write clear, short advice for farmers..."></textarea>
+                        </label>
+                    </div>
+
+                    <div class="advice-form-actions">
+                        <button type="button" class="btn-secondary" id="adviceCancelBtn">Cancel</button>
+                        <button type="submit" class="btn-primary" id="adviceSaveBtn">Save</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+  (function () {
+    var user = null;
+    try { user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null'); } catch (e) { user = null; }
+    if (!user || user.role !== 'admin') { window.location.href = 'Login.html'; return; }
+    function getApiBase() {
+      var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+      if (origin && /^https?:\/\//i.test(origin)) return origin;
+      return 'http://localhost:4000';
+    }
+    const overlay = document.getElementById('adviceModalOverlay');
+    const modalTitle = document.getElementById('adviceModalTitle');
+    const titleInput = document.getElementById('adviceTitleInput');
+    const categoryInput = document.getElementById('adviceCategoryInput');
+    const cropInput = document.getElementById('adviceCropInput');
+    const statusInput = document.getElementById('adviceStatusInput');
+    const bodyInput = document.getElementById('adviceBodyInput');
+
+    const addBtn = document.querySelector('.add-btn');
+    const closeBtn = document.getElementById('adviceModalClose');
+    const cancelBtn = document.getElementById('adviceCancelBtn');
+    const saveBtn = document.getElementById('adviceSaveBtn');
+
+    let currentMode = 'add';
+
+    function openModal(mode, cardEl) {
+      currentMode = mode;
+      if (mode === 'add') {
+        modalTitle.textContent = 'Add advice';
+        titleInput.value = '';
+        categoryInput.value = '';
+        cropInput.value = '';
+        statusInput.value = 'Published';
+        bodyInput.value = '';
+      } else if (mode === 'edit' && cardEl) {
+        modalTitle.textContent = 'Edit advice';
+        const titleEl = cardEl.querySelector('h3');
+        const bodyEl = cardEl.querySelector('p');
+        const statusEl = cardEl.querySelector('.status');
+        titleInput.value = titleEl ? titleEl.textContent.trim() : '';
+        bodyInput.value = bodyEl ? bodyEl.textContent.trim() : '';
+        statusInput.value = statusEl && statusEl.classList.contains('draft') ? 'Draft' : 'Published';
+        categoryInput.value = cardEl.getAttribute('data-category') || '';
+        cropInput.value = '';
+      }
+      overlay.classList.add('is-open');
+    }
+
+    function closeModal() {
+      overlay.classList.remove('is-open');
+    }
+
+    if (addBtn) {
+      addBtn.addEventListener('click', function () {
+        openModal('add');
+      });
+    }
+
+    document.querySelectorAll('.advice-card .edit').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        const card = btn.closest('.advice-card');
+        if (card) openModal('edit', card);
+      });
+    });
+
+    [closeBtn, cancelBtn].forEach(function (btn) {
+      if (btn) {
+        btn.addEventListener('click', function () {
+          closeModal();
+        });
+      }
+    });
+
+    overlay.addEventListener('click', function (e) {
+      if (e.target === overlay) closeModal();
+    });
+
+    function buildFarmingAdvicePayload() {
+      return {
+        title: titleInput.value.trim(),
+        category: categoryInput.value || null,
+        crop: cropInput.value || null,
+        status: statusInput.value || 'Published',
+        body: bodyInput.value.trim(),
+        type: 'farming_advice'
+      };
+    }
+
+    function saveFarmingAdviceToDatabase(payload) {
+      if (!payload.title || !payload.body) {
+        alert('Please enter a title and advice text.');
+        return;
+      }
+      closeModal();
+    }
+
+    document.querySelector('.advice-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+      var payload = buildFarmingAdvicePayload();
+      saveFarmingAdviceToDatabase(payload);
+    });
+    function setFarmerMsg(msg, ok) {
+      var el = document.getElementById('farAdviceSaveMsg');
+      if (el) { el.textContent = msg || ''; el.style.color = ok ? 'green' : 'red'; }
+    }
+    function updateFarCount(id) {
+      var ta = document.getElementById(id);
+      var countEl = document.getElementById(id + 'Count');
+      if (!ta || !countEl) return;
+      var max = parseInt(ta.getAttribute('data-max') || '160', 10);
+      var len = (ta.value || '').length;
+      countEl.textContent = len + ' / ' + max + ' characters';
+      countEl.style.color = len > max ? '#b91c1c' : '#6b7280';
+    }
+    function bindFarmerCounters() {
+      var ids = ['farAdvHigh','farAdvModerate','farAdvSafe','farCondThunder','farCondRain','farCondHeat','farCondWindModerate','farCondHumidityHigh','farCropRiceHumid','farCropMaizeHeat'];
+      for (var i = 0; i < ids.length; i++) {
+        (function(id){
+          var ta = document.getElementById(id);
+          if (!ta) return;
+          ta.addEventListener('input', function(){ updateFarCount(id); });
+          updateFarCount(id);
+        })(ids[i]);
+      }
+    }
+    function loadFarmerAdviceConfig() {
+      var base = getApiBase();
+      fetch(base + '/api/advice/config')
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+        .then(function (resp) {
+          var fam = (resp && resp.body && resp.body.farmer) ? resp.body.farmer : null;
+          if (!fam) return;
+          var sev = fam.severity || {};
+          var cond = fam.conditions || {};
+          var crops = fam.crops || {};
+          var h = document.getElementById('farAdvHigh');
+          var m = document.getElementById('farAdvModerate');
+          var s = document.getElementById('farAdvSafe');
+          if (h) h.value = sev.highText || '';
+          if (m) m.value = sev.moderateText || '';
+          if (s) s.value = sev.safeText || '';
+          var t = document.getElementById('farCondThunder');
+          var r = document.getElementById('farCondRain');
+          var ht = document.getElementById('farCondHeat');
+          var wm = document.getElementById('farCondWindModerate');
+          var hh = document.getElementById('farCondHumidityHigh');
+          if (t) t.value = cond.thunderstormText || '';
+          if (r) r.value = cond.rainText || '';
+          if (ht) ht.value = cond.heatText || '';
+          if (wm) wm.value = cond.windModerateText || '';
+          if (hh) hh.value = cond.humidityHighText || '';
+          var riceH = document.getElementById('farCropRiceHumid');
+          var maizeH = document.getElementById('farCropMaizeHeat');
+          if (riceH) riceH.value = crops.riceHumidityHighText || '';
+          if (maizeH) maizeH.value = crops.maizeHeatHighText || '';
+          bindFarmerCounters();
+        }).catch(function () {});
+    }
+    function bindFarmerSave() {
+      var btn = document.getElementById('farSaveAdviceBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var base = getApiBase();
+        var payload = {
+          farmer: {
+            severity: {
+              highText: (document.getElementById('farAdvHigh').value || '').trim(),
+              moderateText: (document.getElementById('farAdvModerate').value || '').trim(),
+              safeText: (document.getElementById('farAdvSafe').value || '').trim()
+            },
+            conditions: {
+              thunderstormText: (document.getElementById('farCondThunder').value || '').trim(),
+              rainText: (document.getElementById('farCondRain').value || '').trim(),
+              heatText: (document.getElementById('farCondHeat').value || '').trim(),
+              windModerateText: (document.getElementById('farCondWindModerate').value || '').trim(),
+              humidityHighText: (document.getElementById('farCondHumidityHigh').value || '').trim(),
+              safeText: (document.getElementById('farAdvSafe').value || '').trim()
+            },
+            crops: {
+              riceHumidityHighText: (document.getElementById('farCropRiceHumid').value || '').trim(),
+              maizeHeatHighText: (document.getElementById('farCropMaizeHeat').value || '').trim()
+            }
+          }
+        };
+        if (!payload.farmer.severity.highText || !payload.farmer.severity.moderateText || !payload.farmer.severity.safeText) { setFarmerMsg('Enter all severity messages', false); return; }
+        fetch(base + '/api/admin/advice/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+        .then(function (resp) {
+          if (resp.ok && resp.body && resp.body.ok) setFarmerMsg('Saved', true);
+          else setFarmerMsg((resp.body && resp.body.error) ? resp.body.error : 'Save failed', false);
+        }).catch(function () { setFarmerMsg('Cannot reach server', false); });
+      });
+    }
+    function bindFarmerReset() {
+      var btn = document.getElementById('farResetAdviceBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        setFarmerMsg('', true);
+        loadFarmerAdviceConfig();
+      });
+    }
+    loadFarmerAdviceConfig();
+    bindFarmerSave();
+    bindFarmerReset();
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - General User Advice</title>
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="admin-generaluser.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <!-- SIDEBAR -->
+        <aside class="NavbarDivContainer">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+                Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+            </h1>
+
+            <nav class="NavbarContainer" aria-label="Admin navigation">
+                <ul id="navbars">
+                    <li><a href="AdminDashboard.html">Dashboard</a></li>
+                    <li><a href="ADMINusers.html">Users</a></li>
+                    <li><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                    <li class="active3"><a href="ADMINGeneralUserAdvice.html">G‑Users Advice</a></li>
+                    <li><a href="ADMINWeatherlogs.html">Weather logs</a></li>
+                    <li><a href="ADMINfeedback.html">Feedback</a></li>
+                    <li><a href="ADMINsettings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <div class="page-header">
+                <div>
+                    <h1>General user advice</h1>
+                    <p class="page-subtitle">Configure the automated messages shown to general users. Keep advice concise and action‑oriented.</p>
+                </div>
+            </div>
+ 
+
+            <section class="admin-section" aria-labelledby="guser-auto-advice-heading" style="margin-top:24px;">
+                <div class="admin-section-header">
+                    <h2 id="guser-auto-advice-heading">Automated advice text (General users)</h2>
+                </div>
+                    <h3 class="subsection-title" style="margin:0 0 8px;">Severity messages</h3>
+                <div class="admin-grid" style="max-width:800px;">
+                    <div class="input-wrap">
+                        <label for="guAdvHigh" class="sr-only">High risk advice</label>
+                        <textarea id="guAdvHigh" placeholder="High risk advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guAdvHighCount" data-max="160" required></textarea>
+                        <span id="guAdvHighCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guAdvHigh" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="input-wrap">
+                        <label for="guAdvModerate" class="sr-only">Moderate risk advice</label>
+                        <textarea id="guAdvModerate" placeholder="Moderate risk advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guAdvModerateCount" data-max="160" required></textarea>
+                        <span id="guAdvModerateCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guAdvModerate" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="input-wrap">
+                        <label for="guAdvSafe" class="sr-only">Safe advice</label>
+                        <textarea id="guAdvSafe" placeholder="Safe advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guAdvSafeCount" data-max="160" required></textarea>
+                        <span id="guAdvSafeCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guAdvSafe" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <h3 class="subsection-title" style="margin:0 0 8px;">Condition‑specific messages</h3>
+                    <hr style="border:none;height:1px;background:#eee;margin:16px 0;">
+                    <div class="input-wrap">
+                        <label for="guCondThunder" class="sr-only">Thunderstorm text</label>
+                        <textarea id="guCondThunder" placeholder="Thunderstorm advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guCondThunderCount" data-max="160"></textarea>
+                        <span id="guCondThunderCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guCondThunder" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="input-wrap">
+                        <label for="guCondRain" class="sr-only">Rain text</label>
+                        <textarea id="guCondRain" placeholder="Rain expected advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guCondRainCount" data-max="160"></textarea>
+                        <span id="guCondRainCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guCondRain" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="input-wrap">
+                        <label for="guCondHeat" class="sr-only">Heat text</label>
+                        <textarea id="guCondHeat" placeholder="High heat advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guCondHeatCount" data-max="160"></textarea>
+                        <span id="guCondHeatCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guCondHeat" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="input-wrap">
+                        <label for="guCondWindStrong" class="sr-only">Strong wind text</label>
+                        <textarea id="guCondWindStrong" placeholder="Damaging winds advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guCondWindStrongCount" data-max="160"></textarea>
+                        <span id="guCondWindStrongCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guCondWindStrong" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="input-wrap">
+                        <label for="guCondWindModerate" class="sr-only">Moderate wind text</label>
+                        <textarea id="guCondWindModerate" placeholder="Strong winds advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guCondWindModerateCount" data-max="160"></textarea>
+                        <span id="guCondWindModerateCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guCondWindModerate" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="input-wrap">
+                        <label for="guCondHumidityHigh" class="sr-only">High humidity text</label>
+                        <textarea id="guCondHumidityHigh" placeholder="High humidity advice" rows="3" style="width:100%;min-height:64px;" aria-describedby="guCondHumidityHighCount" data-max="160"></textarea>
+                        <span id="guCondHumidityHighCount" class="char-count" style="font-size:12px;color:#6b7280;"></span>
+                        <button type="button" class="btn-secondary edit-toggle" data-target="guCondHumidityHigh" style="margin-top:6px;">Edit</button>
+                    </div>
+                    <div class="admin-section-actions">
+                        <button id="guResetAdviceBtn" class="btn-secondary" type="button">Reset</button>
+                        <button id="guSaveAdviceBtn" class="btn-primary">Save advice</button>
+                        <span id="guAdviceSaveMsg" class="modal-msg" aria-live="polite"></span>
+                    </div>
+                </div>
+
+            <!-- Add/Edit Advice Modal -->
+            <div class="gu-advice-modal-overlay" id="guAdviceModalOverlay">
+                <div class="gu-advice-modal" role="dialog" aria-modal="true" aria-labelledby="guAdviceModalTitle">
+                    <div class="gu-advice-modal-header">
+                        <h2 id="guAdviceModalTitle">Add advice</h2>
+                        <button type="button" class="gu-advice-modal-close" id="guAdviceModalClose" aria-label="Close dialog">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+
+                    <form class="gu-advice-form">
+                        <div class="gu-advice-form-row">
+                            <label>
+                                Title
+                                <input type="text" id="guAdviceTitleInput" placeholder="Enter advice title...">
+                            </label>
+                        </div>
+
+                        <div class="gu-advice-form-row gu-advice-form-row--grid">
+                            <label>
+                                Category
+                                <select id="guAdviceCategoryInput">
+                                    <option value="">Select...</option>
+                                    <option value="Heat">Heat</option>
+                                    <option value="Rain">Rain</option>
+                                    <option value="Thunderstorm">Thunderstorm</option>
+                                    <option value="Wind">Wind</option>
+                                    <option value="Harmattan / Dust">Harmattan / Dust</option>
+                                    <option value="Flooding">Flooding</option>
+                                </select>
+                            </label>
+                            <label>
+                                Status
+                                <select id="guAdviceStatusInput">
+                                    <option value="Published">Published</option>
+                                    <option value="Draft">Draft</option>
+                                </select>
+                            </label>
+                        </div>
+
+                        <div class="gu-advice-form-row">
+                            <label>
+                                Advice
+                                <textarea id="guAdviceBodyInput" rows="4" placeholder="Write clear, short advice for users..."></textarea>
+                            </label>
+                        </div>
+
+                        <div class="gu-advice-form-actions">
+                            <button type="button" class="gu-btn-secondary" id="guAdviceCancelBtn">Cancel</button>
+                            <button type="submit" class="gu-btn-primary" id="guAdviceSaveBtn">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </main>
+    </div> 
+
+<script>
+  (function () {
+    var user = null;
+    try { user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null'); } catch (e) { user = null; }
+    if (!user || user.role !== 'admin') { window.location.href = 'Login.html'; return; }
+    function getApiBase() {
+      var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+      if (origin && /^https?:\/\//i.test(origin)) return origin;
+      return 'http://localhost:4000';
+    }
+    function setMsg(msg, ok) {
+      var el = document.getElementById('guAdviceSaveMsg');
+      if (el) { el.textContent = msg || ''; el.style.color = ok ? 'green' : 'red'; }
+    }
+    function updateCharCount(id) {
+      var ta = document.getElementById(id);
+      var countEl = document.getElementById(id + 'Count');
+      if (!ta || !countEl) return;
+      var max = parseInt(ta.getAttribute('data-max') || '160', 10);
+      var len = (ta.value || '').length;
+      countEl.textContent = len + ' / ' + max + ' characters';
+      countEl.style.color = len > max ? '#b91c1c' : '#6b7280';
+    }
+    function bindCharCounters() {
+      var ids = ['guAdvHigh','guAdvModerate','guAdvSafe','guCondThunder','guCondRain','guCondHeat','guCondWindStrong','guCondWindModerate','guCondHumidityHigh'];
+      for (var i = 0; i < ids.length; i++) {
+        (function(id){
+          var ta = document.getElementById(id);
+          if (!ta) return;
+          ta.addEventListener('input', function(){ updateCharCount(id); });
+          updateCharCount(id);
+        })(ids[i]);
+      }
+    }
+    function loadAdviceConfig() {
+      var base = getApiBase();
+      fetch(base + '/api/advice/config')
+        .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+        .then(function (resp) {
+          var gen = (resp && resp.body && resp.body.general) ? resp.body.general : null;
+          if (!gen) return;
+          var h = document.getElementById('guAdvHigh');
+          var m = document.getElementById('guAdvModerate');
+          var s = document.getElementById('guAdvSafe');
+          var sev = gen.severity || {};
+          if (h) h.value = sev.highText || '';
+          if (m) m.value = sev.moderateText || '';
+          if (s) s.value = sev.safeText || '';
+          var cond = gen.conditions || {};
+          var t = document.getElementById('guCondThunder');
+          var r = document.getElementById('guCondRain');
+          var ht = document.getElementById('guCondHeat');
+          var ws = document.getElementById('guCondWindStrong');
+          var wm = document.getElementById('guCondWindModerate');
+          var hh = document.getElementById('guCondHumidityHigh');
+          if (t) t.value = cond.thunderstormText || '';
+          if (r) r.value = cond.rainText || '';
+          if (ht) ht.value = cond.heatText || '';
+          if (ws) ws.value = cond.windStrongText || '';
+          if (wm) wm.value = cond.windModerateText || '';
+          if (hh) hh.value = cond.humidityHighText || '';
+          bindCharCounters();
+        }).catch(function () {});
+    }
+    function bindSave() {
+      var btn = document.getElementById('guSaveAdviceBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        var base = getApiBase();
+        var h = document.getElementById('guAdvHigh');
+        var m = document.getElementById('guAdvModerate');
+        var s = document.getElementById('guAdvSafe');
+        var t = document.getElementById('guCondThunder');
+        var r = document.getElementById('guCondRain');
+        var ht = document.getElementById('guCondHeat');
+        var ws = document.getElementById('guCondWindStrong');
+        var wm = document.getElementById('guCondWindModerate');
+        var hh = document.getElementById('guCondHumidityHigh');
+        var payload = {
+          general: {
+            severity: {
+              highText: (h && h.value ? h.value.trim() : ''),
+              moderateText: (m && m.value ? m.value.trim() : ''),
+              safeText: (s && s.value ? s.value.trim() : '')
+            },
+            conditions: {
+              thunderstormText: (t && t.value ? t.value.trim() : ''),
+              rainText: (r && r.value ? r.value.trim() : ''),
+              heatText: (ht && ht.value ? ht.value.trim() : ''),
+              windStrongText: (ws && ws.value ? ws.value.trim() : ''),
+              windModerateText: (wm && wm.value ? wm.value.trim() : ''),
+              humidityHighText: (hh && hh.value ? hh.value.trim() : ''),
+              safeText: (s && s.value ? s.value.trim() : '')
+            }
+          }
+        };
+        if (!payload.general.severity.highText || !payload.general.severity.moderateText || !payload.general.severity.safeText) { setMsg('Enter text for all severity levels', false); return; }
+        fetch(base + '/api/admin/advice/config', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+        .then(function (resp) {
+          if (resp.ok && resp.body && resp.body.ok) setMsg('Saved', true);
+          else setMsg((resp.body && resp.body.error) ? resp.body.error : 'Save failed', false);
+        }).catch(function () { setMsg('Cannot reach server', false); });
+      });
+    }
+    function bindReset() {
+      var btn = document.getElementById('guResetAdviceBtn');
+      if (!btn) return;
+      btn.addEventListener('click', function () {
+        setMsg('', true);
+        loadAdviceConfig();
+      });
+    }
+    function bindEditToggles() {
+      var buttons = document.querySelectorAll('.edit-toggle');
+      for (var i = 0; i < buttons.length; i++) {
+        buttons[i].addEventListener('click', function () {
+          var targetId = this.getAttribute('data-target');
+          var ta = targetId ? document.getElementById(targetId) : null;
+          if (!ta) return;
+          var expanded = ta.getAttribute('data-expanded') === 'true';
+          if (expanded) {
+            ta.setAttribute('data-expanded', 'false');
+            ta.setAttribute('rows', '3');
+            this.textContent = 'Edit';
+          } else {
+            ta.setAttribute('data-expanded', 'true');
+            ta.setAttribute('rows', '6');
+            this.textContent = 'Collapse';
+            ta.focus();
+          }
+        });
+      }
+    }
+    loadAdviceConfig();
+    bindSave();
+    bindReset();
+    bindEditToggles();
+  })();
+</script>
+
+</body>
+</html>

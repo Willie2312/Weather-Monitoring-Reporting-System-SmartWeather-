@@ -1,0 +1,163 @@
+/* ===== FARMER HELP PAGE ===== */
+
+.help-main {
+  max-width: 720px;
+  padding-bottom: 48px;
+}
+
+.help-logo-link {
+  color: inherit;
+  text-decoration: none;
+}
+
+.help-logo-link:hover {
+  opacity: 0.9;
+}
+
+.help-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.25);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: background 0.2s;
+}
+
+.help-back-btn:hover {
+  background: rgba(255, 255, 255, 0.35);
+  color: #fff;
+}
+
+.help-header {
+  margin-bottom: 32px;
+}
+
+.help-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--farmer-text);
+  margin: 0 0 12px 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.help-title i {
+  color: var(--farmer-primary);
+}
+
+.help-intro {
+  font-size: 1.05rem;
+  color: var(--farmer-text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.help-section {
+  background: var(--farmer-card);
+  border-radius: var(--farmer-radius-lg);
+  padding: 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--farmer-shadow);
+  border: 1px solid var(--farmer-border);
+}
+
+.help-section h2 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--farmer-primary);
+  margin: 0 0 14px 0;
+  padding: 0;
+  background: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.help-section h2 i {
+  opacity: 0.9;
+}
+
+.help-section p {
+  margin: 0 0 12px 0;
+  font-size: 0.98rem;
+  line-height: 1.6;
+  color: var(--farmer-text);
+}
+
+.help-section p:last-child {
+  margin-bottom: 0;
+}
+
+.help-section ul {
+  margin: 0 0 12px 0;
+  padding-left: 1.4rem;
+  color: var(--farmer-text);
+  line-height: 1.65;
+}
+
+.help-section ul:last-child {
+  margin-bottom: 0;
+}
+
+.help-section li {
+  margin-bottom: 8px;
+}
+
+.help-section li:last-child {
+  margin-bottom: 0;
+}
+
+.help-list-strong li {
+  margin-bottom: 12px;
+}
+
+.help-contact {
+  background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+  border-color: #a7f3d0;
+}
+
+.help-contact-link {
+  margin-top: 8px;
+}
+
+.help-contact-link a {
+  color: var(--farmer-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.help-contact-link a:hover {
+  text-decoration: underline;
+}
+
+.help-contact-note {
+  font-size: 0.85rem;
+  color: var(--farmer-text-muted);
+  margin-top: 12px;
+}
+
+@media (max-width: 768px) {
+  .help-main {
+    padding: 16px;
+    padding-bottom: 40px;
+  }
+
+  .help-title {
+    font-size: 1.5rem;
+  }
+
+  .help-section {
+    padding: 18px;
+  }
+
+  .help-section h2 {
+    font-size: 1.05rem;
+  }
+}

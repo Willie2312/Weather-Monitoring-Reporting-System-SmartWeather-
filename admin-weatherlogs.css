@@ -1,0 +1,87 @@
+/* ===== ADMIN WEATHER LOGS PAGE ===== */
+
+.logs-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.logs-page-header h1 {
+  font-size: 24px;
+}
+
+.logs-page-subtitle {
+  margin-top: 6px;
+  color: #6b7280;
+  font-size: 0.95rem;
+}
+
+.logs-filters {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 18px;
+}
+
+.logs-filters input,
+.logs-filters select {
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: 1px solid #d1d5db;
+  background: white;
+  font-size: 0.9rem;
+}
+
+.logs-filters input[type=\"search\"] {
+  flex: 1;
+  min-width: 200px;
+}
+
+.logs-table-wrapper {
+  margin-top: 8px;
+}
+
+.logs-loader-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15,23,42,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1200;
+}
+.logs-loader-overlay.active { display: flex; }
+.logs-loader {
+  width: 56px;
+  height: 56px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: logs-spin 0.8s linear infinite;
+}
+.logs-loader-message {
+  color: #fff;
+  font-weight: 600;
+}
+@keyframes logs-spin { to { transform: rotate(360deg); } }
+
+@media (max-width: 768px) {
+  .logs-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .logs-filters {
+    flex-direction: column;
+  }
+
+  .logs-filters input,
+  .logs-filters select {
+    width: 100%;
+  }
+}
+

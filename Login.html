@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login – Smart Weather</title>
+    <link rel="stylesheet" href="Login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body class="login-body">
+    <header class="login-nav">
+        <a href="HomePage.html" class="login-back" aria-label="Back"><i class="fa-solid fa-arrow-left"></i></a>
+        <div class="login-logo">
+            <i class="fa-solid fa-cloud"></i>
+            <span>Smart<span class="accent">Weather</span></span>
+        </div>
+        <a href="Login.html" class="login-nav-link active">Login</a>
+    </header>
+
+    <main class="login-main">
+        <div class="login-card">
+            <h2>Welcome back</h2>
+            <p class="login-subtitle">Enter your credentials to sign in</p>
+
+            <div id="login-error" class="login-error" role="alert"></div>
+
+            <form class="login-form">
+                <div class="login-input-wrap">
+                    <i class="fa-solid fa-envelope"></i>
+                    <input type="email" id="loginName" placeholder="Email" required autocomplete="email">
+                </div>
+
+                <div class="login-input-wrap">
+                    <i class="fa-solid fa-lock"></i>
+                    <input type="password" id="password" placeholder="Password" required autocomplete="current-password">
+                    <button type="button" class="login-toggle-password" id="togglePassword" aria-label="Show password"><i class="fa-solid fa-eye"></i></button>
+                </div>
+
+                <fieldset class="login-role">
+                    <legend>Sign in as</legend>
+                    <label class="login-radio">
+                        <input type="radio" name="role" value="general" required>
+                        <span>General user</span>
+                    </label>
+                    <label class="login-radio">
+                        <input type="radio" name="role" value="farmer">
+                        <span>Farmer</span>
+                    </label>
+                    <label class="login-radio">
+                        <input type="radio" name="role" value="admin">
+                        <span>Admin</span>
+                    </label>
+                </fieldset>
+
+                <button type="submit" class="login-btn">Login</button>
+
+                <p class="login-signup">
+                    Don’t have an account? <a href="SignIn.html">Sign in</a>
+                </p>
+            </form>
+        </div>
+    </main>
+
+    <div id="loginLoaderOverlay" class="login-loader-overlay" aria-live="polite" aria-busy="true">
+        <div class="login-loader"></div>
+        <div id="loginLoaderMessage" class="login-loader-message">you have successfully sign in</div>
+    </div>
+
+    <script>
+        (function () {
+            var toggle = document.getElementById('togglePassword');
+            var passwordInput = document.getElementById('password');
+            if (toggle && passwordInput) {
+                toggle.addEventListener('click', function () {
+                    var type = passwordInput.type === 'password' ? 'text' : 'password';
+                    passwordInput.type = type;
+                    var icon = toggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.toggle('fa-eye');
+                        icon.classList.toggle('fa-eye-slash');
+                    }
+                });
+            }
+        })();
+        (function () {
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            function exitKiosk() {
+                var base = getApiBase();
+                try { fetch(base + '/api/kiosk/exit', { method: 'POST' }).catch(function(){}); } catch (e) {}
+                setTimeout(function () {
+                    try { window.close(); } catch (e) {}
+                    setTimeout(function () {
+                        try { var w = window.open('', '_self'); if (w) w.close(); } catch (e) {}
+                    }, 120);
+                }, 180);
+            }
+            window.addEventListener('keydown', function (e) {
+                var k = e.key || e.code || '';
+                if (k === 'Escape' || k === 'Esc') {
+                    e.preventDefault();
+                    exitKiosk();
+                }
+            });
+        })();
+        (function () {
+            var form = document.querySelector('.login-form');
+            if (!form) return;
+            var errorEl = document.getElementById('login-error');
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            function showLoginError(msg) {
+                if (!errorEl) return;
+                errorEl.textContent = msg;
+                errorEl.style.display = 'block';
+            }
+            function clearLoginError() {
+                if (!errorEl) return;
+                errorEl.textContent = '';
+                errorEl.style.display = 'none';
+            }
+            function showSuccessLoaderAndNavigate(role, opts) {
+                var overlay = document.getElementById('loginLoaderOverlay');
+                var msgEl = document.getElementById('loginLoaderMessage');
+                var forceReset = !!(opts && opts.forceReset);
+                if (msgEl) msgEl.textContent = forceReset ? 'Temporary password detected — setting new password…' : 'you have successfully sign in';
+                if (overlay) overlay.style.display = 'flex';
+                var href;
+                if (forceReset) {
+                    href = (role === 'general' ? 'passwordGUser.html' : 'passwordFarmer.html') + '?forceReset=1';
+                } else {
+                    href = role === 'general' ? 'GeneralUserDashboard.html' : 'FarmerDashboard.html';
+                }
+                setTimeout(function () { window.location.href = href; }, 900);
+            }
+            function postAdminLogin(email, password) {
+                var bases = [getApiBase(), 'http://localhost:4000'];
+                var i = 0;
+                function attempt() {
+                    var b = bases[i++];
+                    if (!b) { showLoginError('Cannot reach server.'); return; }
+                    fetch(b + '/api/auth/admin/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email, password: password })
+                    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+                    .then(function (resp) {
+                        if (resp.ok && resp.body && resp.body.ok) {
+                            try { localStorage.setItem('smartWeather_currentUser', JSON.stringify({ email: email, role: 'admin', name: 'Admin' })); } catch (e) {}
+                            window.location.href = 'AdminDashboard.html';
+                        } else if (i < bases.length) {
+                            attempt();
+                        } else {
+                            showLoginError((resp.body && resp.body.error) ? resp.body.error : 'Login failed');
+                        }
+                    }).catch(function () { attempt(); });
+                }
+                attempt();
+            }
+            function postUserLogin(email, role, password) {
+                var bases = [getApiBase(), 'http://localhost:4000'];
+                var i = 0;
+                function attempt() {
+                    var b = bases[i++];
+                    if (!b) {
+                        try { localStorage.setItem('smartWeather_currentUser', JSON.stringify({ email: email, role: role, name: email })); } catch (e) {}
+                        showSuccessLoaderAndNavigate(role);
+                        return;
+                    }
+                    fetch(b + '/api/auth/login', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email: email, role: role, password: password })
+                    }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j, status: r.status }; }); })
+                    .then(function (resp) {
+                        if (resp.ok && resp.body && resp.body.ok) {
+                            var userInfo = (resp.body && resp.body.user) ? resp.body.user : { email: email, role: role, name: email };
+                            if (!userInfo.email) userInfo.email = email;
+                            if (!userInfo.role) userInfo.role = role;
+                            try { localStorage.setItem('smartWeather_currentUser', JSON.stringify(userInfo)); } catch (e) {}
+                            var mustChange = !!(resp.body && resp.body.mustChangePassword);
+                            showSuccessLoaderAndNavigate(role, { forceReset: mustChange });
+                        } else if (i < bases.length) {
+                            attempt();
+                        } else {
+                            if (resp.status === 403) showLoginError((resp.body && resp.body.error) || 'This account has been blocked. Contact the administrator.');
+                            else if (resp.status === 404) showLoginError('You don’t have an account. Please sign in first.');
+                            else showLoginError((resp.body && resp.body.error) ? resp.body.error : 'Login failed');
+                        }
+                    }).catch(function () { attempt(); });
+                }
+                attempt();
+            }
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                clearLoginError();
+                var nameInput = document.getElementById('loginName');
+                var pwInput = document.getElementById('password');
+                var roleEl = document.querySelector('input[name="role"]:checked');
+                var email = nameInput && nameInput.value ? nameInput.value.trim().toLowerCase() : '';
+                var password = pwInput && pwInput.value ? pwInput.value : '';
+                var role = roleEl ? roleEl.value : '';
+                if (!email || !password || !role) { showLoginError('Please enter email, password, and select a role.'); return; }
+                if (role === 'admin') {
+                    postAdminLogin(email, password);
+                } else if (role === 'general' || role === 'farmer') {
+                    postUserLogin(email, role, password);
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

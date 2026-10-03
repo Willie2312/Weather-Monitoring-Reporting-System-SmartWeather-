@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Help – Smart Weather</title>
+    <link rel="stylesheet" href="Home.css">
+    <link rel="stylesheet" href="GeneralUserDashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+    <style>
+        .help-page { max-width: 720px; margin: 0 auto; padding: 24px 20px 48px; }
+        .help-page h1 { font-size: 1.6rem; margin-bottom: 8px; color: #1e293b; }
+        .help-page .intro { color: #64748b; margin-bottom: 28px; line-height: 1.6; }
+        .help-block { background: #fff; border-radius: 14px; padding: 18px 20px; margin-bottom: 16px; box-shadow: 0 4px 14px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
+        .help-block h2 { font-size: 1.05rem; margin: 0 0 8px 0; color: #2563eb; display: flex; align-items: center; gap: 8px; }
+        .help-block p { margin: 0; font-size: 0.95rem; color: #475569; line-height: 1.55; }
+        .help-block .solution { margin-top: 10px; padding-top: 10px; border-top: 1px solid #e2e8f0; }
+        .help-block .solution strong { color: #1e293b; }
+        .help-back { display: inline-block; margin-bottom: 20px; color: #2563eb; text-decoration: none; font-weight: 500; }
+        .help-back:hover { text-decoration: underline; }
+    </style>
+</head>
+<body class="guser-dashboard">
+    <header>
+        <div class="StaticBar">
+            <h1 id="name"><i class="fa-solid fa-cloud fa-xl" style="color: rgb(86, 167, 228);"></i> Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i></h1>
+            <a href="GeneralUserDashboard.html" class="help-back"><i class="fa-solid fa-arrow-left"></i> Back to dashboard</a>
+        </div>
+    </header>
+
+    <main class="help-page">
+        <h1><i class="fa-solid fa-circle-question"></i> Help</h1>
+        <p class="intro">Common problems and solutions for general users. If your issue isn’t here, use <strong>Send Feedback</strong> from the dashboard menu.</p>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-magnifying-glass"></i> Search for a city doesn’t work or shows no results</h2>
+            <p><strong>Problem:</strong> You type a city name but nothing happens or you see “No results”.</p>
+            <p class="solution"><strong>Solutions:</strong> Use the full, correct spelling of the city (e.g. “Freetown” not “free”). Try a nearby larger city if your town isn’t listed. Check your internet connection. Refresh the page and try again.</p>
+        </div>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-location-dot"></i> “Use my location” doesn’t work or shows wrong place</h2>
+            <p><strong>Problem:</strong> The app doesn’t find your location or shows weather for somewhere else.</p>
+            <p class="solution"><strong>Solutions:</strong> Allow location access when the browser asks. On phone, turn on Location/GPS for the browser. If it’s wrong, use <strong>Search city</strong> and type your city name instead. Avoid using location on VPN or strict privacy settings that block location.</p>
+        </div>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-cloud-sun"></i> Weather seems wrong or not updating</h2>
+            <p><strong>Problem:</strong> Temperature or conditions don’t match what you see outside, or the page doesn’t update.</p>
+            <p class="solution"><strong>Solutions:</strong> Refresh the page to get the latest data. Make sure the correct city is selected (check the location bar). Weather is based on the nearest weather station; small local differences can occur. If it’s still wrong, try another city nearby to compare.</p>
+        </div>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-bell"></i> I don’t get alerts or notifications</h2>
+            <p><strong>Problem:</strong> You subscribed to alerts but don’t receive any.</p>
+            <p class="solution"><strong>Solutions:</strong> Click <strong>Subscribe to alerts</strong> and ensure it shows <strong>Alerts on</strong>. Use <strong>Notification Signup</strong> from the menu (⋮) and enter a valid email. Check your spam folder. Make sure your browser or device allows notifications if you enabled them.</p>
+        </div>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-toggle-on"></i> How to turn alerts on or off</h2>
+            <p><strong>Problem:</strong> You want to subscribe or unsubscribe from weather alerts.</p>
+            <p class="solution"><strong>Solutions:</strong> On the dashboard, use the <strong>Subscribe to alerts</strong> button. When it shows <strong>Alerts on</strong>, you’re subscribed. Click it again to turn alerts off. You can also set your city in the “Enter city or town” box and use “Use my current location” so alerts match your area.</p>
+        </div>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-lock"></i> I forgot my password or can’t sign in</h2>
+            <p><strong>Problem:</strong> You can’t log in or don’t remember your password.</p>
+            <p class="solution"><strong>Solutions:</strong> Use <strong>Change password</strong> from the dashboard menu (⋮) if you’re already logged in. If you’re on the login page, look for a “Forgot password?” link if available. Otherwise contact support (e.g. via <strong>Send Feedback</strong>) to reset your account.</p>
+        </div>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-mobile-screen"></i> Page looks broken or doesn’t fit my screen</h2>
+            <p><strong>Problem:</strong> Layout is messy, buttons are cut off, or text is too small on phone or tablet.</p>
+            <p class="solution"><strong>Solutions:</strong> Refresh the page and try rotating your device. Use the latest version of your browser (Chrome, Safari, Firefox, Edge). Clear cache if the page still looks old or broken. If possible, try another device or browser to see if the issue is device-specific.</p>
+        </div>
+
+        <div class="help-block">
+            <h2><i class="fa-solid fa-envelope"></i> I want to send feedback or report a problem</h2>
+            <p><strong>Problem:</strong> You have a suggestion or something isn’t working.</p>
+            <p class="solution"><strong>Solutions:</strong> Open the menu (⋮) on the dashboard and click <strong>Send Feedback</strong>. Describe the problem or suggestion clearly; your email will open so you can send it to the team. We use this to fix issues and improve the app.</p>
+        </div>
+    </main>
+</body>
+</html>

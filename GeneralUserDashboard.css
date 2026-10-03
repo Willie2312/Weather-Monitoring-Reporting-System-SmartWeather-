@@ -1,0 +1,650 @@
+/* ===== GENERAL USER DASHBOARD ===== */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap');
+
+.guser-dashboard {
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #f0f4f8;
+  min-height: 100vh;
+  color: #1e293b;
+  padding-top: 64px;
+}
+
+/* Fixed nav bar */
+.guser-dashboard .StaticBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.guser-location {
+  background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+  padding: 14px 20px;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: #3730a3;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.guser-main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.guser-today-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  padding: 24px;
+  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+}
+
+.guser-today-card h1 {
+  font-size: 1.2rem;
+  color: #64748b;
+  margin-bottom: 12px;
+}
+
+.guser-today-top {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 24px;
+  align-items: start;
+}
+
+.guser-today-left {
+  min-width: 0;
+}
+
+.guser-today-icon-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.guser-today-icon {
+  font-size: 2rem;
+  flex-shrink: 0;
+}
+
+/* Weather icon colors by condition */
+.guser-today-icon.wicon-clear,
+.guser-hourly-icon.wicon-clear,
+.weather-card-icon.wicon-clear { color: #7dd3fc; }
+.guser-today-icon.wicon-sun,
+.guser-hourly-icon.wicon-sun,
+.weather-card-icon.wicon-sun { color: #eab308; }
+.guser-today-icon.wicon-thunder,
+.guser-hourly-icon.wicon-thunder,
+.weather-card-icon.wicon-thunder { color: #422006; }
+.guser-today-icon.wicon-rain,
+.guser-hourly-icon.wicon-rain,
+.weather-card-icon.wicon-rain { color: #2563eb; }
+.guser-today-icon.wicon-snow,
+.guser-hourly-icon.wicon-snow,
+.weather-card-icon.wicon-snow { color: #bae6fd; }
+.guser-today-icon.wicon-fog,
+.guser-hourly-icon.wicon-fog,
+.weather-card-icon.wicon-fog { color: #94a3b8; }
+.guser-today-icon.wicon-cloud,
+.guser-hourly-icon.wicon-cloud,
+.weather-card-icon.wicon-cloud { color: #64748b; }
+
+.guser-today-card .guser-today-condition,
+.guser-today-card h2 {
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: #334155;
+  margin: 0;
+  background: none;
+  padding: 0;
+}
+
+.guser-today-temp {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 8px;
+}
+
+.guser-today-advice {
+  color: #64748b;
+  margin-bottom: 14px;
+}
+
+.guser-today-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  column-gap: 28px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  min-width: 200px;
+}
+
+.guser-today-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: flex-start;
+}
+
+.guser-today-stat .guser-stat-icon {
+  font-size: 1.25rem;
+  color: #2563eb;
+  margin-top: 4px;
+  margin-bottom: 2px;
+}
+
+.guser-today-stat-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.guser-today-stat-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+@media (max-width: 640px) {
+  .guser-today-top {
+    grid-template-columns: 1fr;
+  }
+
+  .guser-today-stats {
+    min-width: 0;
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 380px) {
+  .guser-today-stats {
+    grid-template-columns: 1fr;
+  }
+}
+
+.guser-alert-btn {
+  padding: 10px 18px;
+  border-radius: 9999px;
+  border: 2px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.guser-alert-btn:hover {
+  background: #eff6ff;
+}
+
+.guser-alert-btn.alerts-on {
+  background: #2563eb;
+  color: #fff;
+  border-color: #2563eb;
+}
+
+.guser-alert-btn.alerts-on:hover {
+  background: #1d4ed8;
+  border-color: #1d4ed8;
+}
+
+.guser-alert-btn-on {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* Hourly forecast - 5 cards */
+.guser-hourly {
+  margin-bottom: 24px;
+}
+
+.guser-hourly-title {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 14px 0;
+}
+
+.guser-hourly-cards {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+.guser-hourly-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.guser-hourly-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.guser-hourly-card .hour {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #2563eb;
+  margin-bottom: 8px;
+  order: 0;
+}
+
+.guser-hourly-data {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  order: 1;
+}
+
+.guser-hourly-card .guser-hourly-icon {
+  font-size: 1.5rem;
+}
+
+.guser-hourly-card .temp {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.guser-hourly-card .cond {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.35;
+}
+
+@media (max-width: 900px) {
+  .guser-hourly-cards {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 560px) {
+  .guser-hourly-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 380px) {
+  .guser-hourly-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
+.guser-section-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.guser-section-title h2 {
+  margin: 0;
+  font-size: 1.15rem;
+  background: none;
+  padding: 0;
+}
+
+.guser-forecast .WeatherCards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 12px;
+}
+
+.guser-forecast .weather-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  border: 1px solid #e2e8f0;
+}
+
+.guser-forecast .weather-card .day {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 4px;
+}
+
+.guser-forecast .weather-card .weather-card-icon {
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.guser-forecast .weather-card .forecast-temp {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #1e293b;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.guser-forecast .weather-card .forecast-cond {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #475569;
+  line-height: 1.35;
+  display: block;
+}
+
+.guser-alert-card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.06);
+  border: 1px solid #e2e8f0;
+}
+
+.guser-alert-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+}
+
+.guser-alert-row input {
+  flex: 1;
+  min-width: 180px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #cbd5e1;
+  font-size: 0.95rem;
+}
+
+/* Search buttons – match dashboard blue theme */
+.guser-dashboard #SearchBtn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+}
+
+.guser-dashboard #SearchBtn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+.guser-dashboard #UseMyLocation {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.guser-dashboard #UseMyLocation:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.guser-dashboard .guser-alert-row #SearchCityBtn {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: none;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.guser-dashboard .guser-alert-row #SearchCityBtn:hover {
+  background: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.guser-dashboard .guser-alert-row #UseMyLocation2 {
+  padding: 10px 18px;
+  border-radius: 10px;
+  border: 2px solid #2563eb;
+  background: #fff;
+  color: #2563eb;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.guser-dashboard .guser-alert-row #UseMyLocation2:hover {
+  background: #eff6ff;
+  color: #1d4ed8;
+  transform: translateY(-2px);
+}
+
+.menu-dropdown {
+  position: fixed;
+  top: 70px;
+  right: 16px;
+  display: none;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.12);
+  z-index: 2000;
+  min-width: 220px;
+}
+.menu-dropdown.active {
+  display: flex;
+}
+.menu-dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: none;
+  background: #fff;
+  color: #1e293b;
+  font-size: 0.95rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.menu-dropdown-item:hover {
+  background: #f1f5f9;
+}
+
+.guser-notifications {
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #fcd34d;
+  border-radius: 14px;
+  padding: 18px;
+}
+
+.guser-notifications h2 {
+  margin: 0 0 10px 0;
+  font-size: 1.1rem;
+  background: none;
+  padding: 0;
+  color: #92400e;
+}
+
+.guser-notifications p {
+  margin: 6px 0;
+  color: #78350f;
+  font-size: 0.95rem;
+}
+
+@media (max-width: 768px) {
+  .guser-main {
+    padding: 16px;
+  }
+
+  .guser-today-card {
+    padding: 18px;
+  }
+}
+
+/* ===== Mobile UI / UX Overhaul (General User Dashboard) ===== */
+@media (max-width: 640px) {
+  .guser-dashboard {
+    padding-top: 60px;
+  }
+
+  .guser-dashboard .StaticBar {
+    padding: 10px 14px;
+  }
+
+  .guser-dashboard .StaticBar .StaticBar-left {
+    gap: 8px;
+  }
+
+  .guser-dashboard .StaticBar #name {
+    font-size: 1.1rem;
+  }
+
+  .guser-dashboard .StaticBar #optionsButton {
+    width: 38px;
+    height: 38px;
+    font-size: 1.1rem;
+  }
+
+  .guser-location {
+    padding: 12px 15px;
+    font-size: 0.95rem;
+  }
+
+  .guser-today-card {
+    padding: 16px;
+    border-radius: 14px;
+    margin-bottom: 16px;
+  }
+
+  .guser-today-card h1 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .guser-today-top {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .guser-today-card .guser-today-condition,
+  .guser-today-card h2 {
+    font-size: 1.2rem;
+  }
+
+  .guser-today-temp {
+    font-size: 1.75rem !important;
+  }
+
+  .guser-today-card .guser-today-stat {
+    padding: 8px;
+  }
+
+  .guser-today-stat-label {
+    font-size: 0.75rem;
+  }
+
+  .guser-today-stat-value {
+    font-size: 1.05rem;
+  }
+
+  .guser-advice-panel {
+    padding: 14px;
+    margin-bottom: 16px;
+  }
+
+  .guser-advice-panel h2 {
+    font-size: 1rem;
+  }
+
+  .guser-hourly-cards {
+    gap: 10px !important;
+    padding: 0 2px 12px 2px;
+  }
+
+  .guser-hourly-card {
+    min-width: 90px;
+    padding: 12px 10px;
+  }
+
+  .guser-hourly-card .hour {
+    font-size: 0.8rem;
+  }
+
+  .guser-hourly-card .guser-hourly-icon {
+    font-size: 1.4rem;
+  }
+
+  .guser-forecast .WeatherCards {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+
+  /* Accuracy widget compact */
+  #accuracy-widget {
+    margin-top: 14px !important;
+    padding: 12px !important;
+  }
+
+  #accuracy-widget > p {
+    font-size: 0.85rem !important;
+  }
+
+  #Notifications {
+    padding: 14px !important;
+    margin-bottom: 16px;
+  }
+
+  #Notifications > h2 {
+    font-size: 1rem !important;
+  }
+
+  .SubscribeToAlertsWrapper {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 380px) {
+  .guser-forecast .WeatherCards {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+
+  .guser-today-card .guser-today-stats {
+    grid-template-columns: 1fr 1fr !important;
+  }
+}

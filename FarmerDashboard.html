@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Farmer Dashboard – Smart Weather</title>
+      <link rel="stylesheet" href="Home.css">
+    <link rel="stylesheet" href="FarmerDashboard.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body class="farmer-dashboard">
+    <header>
+        <div class="StaticBar">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color: rgb(86, 167, 228);"></i> Smart<i style="font-weight: bold;"> <span style="color: #fef08a;">W</span>eather</i>
+            </h1>
+            <span class="farmer-nav-row">
+                <input type="search" placeholder="Search city" id="searchBox" aria-label="Search city">
+                <button type="button" id="SearchBtn" aria-label="Search weather for city">Search</button>
+                <button type="button" id="UseMyLocation">Use my location</button>
+                <a href="FarmerHelp.html" id="help" class="help-nav-link">Help</a>
+                <button type="button" id="optionsButton" aria-label="Menu">⋮</button>
+            </span>
+        </div>
+    </header>
+
+    <div class="menu-dropdown" id="menuDropdown">
+        <button type="button" class="menu-dropdown-item" id="menuNotification" aria-pressed="false">
+            <span class="menu-notification-text">🔔 Notification Signup: Off</span>
+        </button>
+        <a href="#" class="menu-dropdown-item" id="menuSendFeedback">💬 Send Feedback</a>
+        <a href="passwordFarmer.html" class="menu-dropdown-item">🚪 Change password</a>
+        <button type="button" class="menu-dropdown-item" id="menuLogout">🚪 Logout</button>
+    </div>
+
+    <h2 class="farmer-location">—</h2>
+
+    <main class="farmer-main">
+        <!-- Today's weather: temperature + humidity, wind, air pressure -->
+        <section class="farmer-today-card" aria-labelledby="today-heading">
+            <h1 id="today-heading">Today</h1>
+            <div class="farmer-today-content">
+                <div class="farmer-today-left">
+                    <div class="farmer-today-icon-wrap">
+                        <i class="farmer-today-icon fa-solid fa-cloud" aria-hidden="true"></i>
+                        <h2 class="farmer-today-condition">—</h2>
+                    </div>
+                    <p class="farmer-today-temp">—</p>
+                    <p class="farmer-today-advice">Today's advice</p>
+                    <button type="button" id="SubscribeToAlerts" class="btn-subscribe">Subscribe to alerts</button>
+                    <button type="button" id="TestNotificationFarmer" class="btn-subscribe" style="margin-top:8px;background:#0369a1;">🔔 Send Test Alert</button>
+    </div> 
+                <div class="farmer-stats">
+                    <div class="farmer-stat">
+                        <span class="farmer-stat-label">Temperature</span>
+                        <i class="farmer-stat-icon fa-solid fa-temperature-half" aria-hidden="true"></i>
+                        <span class="farmer-stat-value">—</span>
+                    </div>
+                    <div class="farmer-stat">
+                        <span class="farmer-stat-label">Humidity</span>
+                        <i class="farmer-stat-icon fa-solid fa-droplet" aria-hidden="true"></i>
+                        <span class="farmer-stat-value">—</span>
+                    </div>
+                    <div class="farmer-stat">
+                        <span class="farmer-stat-label">Wind</span>
+                        <i class="farmer-stat-icon fa-solid fa-wind" aria-hidden="true"></i>
+                        <span class="farmer-stat-value">—</span>
+                    </div>
+                    <div class="farmer-stat">
+                        <span class="farmer-stat-label">Air pressure</span>
+                        <i class="farmer-stat-icon fa-solid fa-gauge-high" aria-hidden="true"></i>
+                        <span class="farmer-stat-value">—</span>
+                    </div>
+                </div>
+            </div>
+            <!-- Accuracy Reporting Widget -->
+            <div id="accuracy-widget" class="farmer-accuracy-report" style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.5); border-radius: 12px; border: 1px dashed #2d8a3e;">
+                <p style="margin: 0 0 10px 0; font-weight: 600; font-size: 0.9rem; color: #1a5f2a;">Is this forecast accurate for your exact location?</p>
+                <div style="display: flex; gap: 10px;">
+                    <button type="button" class="btn-accuracy" data-accuracy="accurate" style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #2d8a3e; background: #fff; color: #2d8a3e; cursor: pointer; font-weight: 600;">Yes, accurate</button>
+                    <button type="button" class="btn-accuracy" data-accuracy="inaccurate" style="flex: 1; padding: 8px; border-radius: 6px; border: 1px solid #b91c1c; background: #fff; color: #b91c1c; cursor: pointer; font-weight: 600;">No, inaccurate</button>
+                </div>
+                <div id="accuracy-feedback" style="display: none; margin-top: 10px; font-size: 0.85rem; color: #1a5f2a; font-weight: 500;">
+                    <i class="fa-solid fa-check-circle"></i> Thank you! Your report helps improve accuracy for your area.
+                </div>
+            </div>
+        </section>
+
+        <!-- Hourly forecast (4 slots for today) -->
+        <section class="farmer-hourly" aria-labelledby="hourly-heading">
+            <h2 id="hourly-heading" class="farmer-hourly-title">Hourly forecast <span class="farmer-hourly-sub">— today</span></h2>
+            <div class="farmer-hourly-cards">
+                <div class="hourly-card">
+                    <span class="hourly-time" data-slot="0">6 AM</span>
+                    <i class="hourly-card-icon fa-solid fa-cloud" aria-hidden="true"></i>
+                    <span class="hourly-temp">—</span>
+                    <span class="hourly-condition">—</span>
+     </div>
+                <div class="hourly-card">
+                    <span class="hourly-time" data-slot="1">12 PM</span>
+                    <i class="hourly-card-icon fa-solid fa-cloud" aria-hidden="true"></i>
+                    <span class="hourly-temp">—</span>
+                    <span class="hourly-condition">—</span>
+               </div>
+                <div class="hourly-card">
+                    <span class="hourly-time" data-slot="2">6 PM</span>
+                    <i class="hourly-card-icon fa-solid fa-cloud" aria-hidden="true"></i>
+                    <span class="hourly-temp">—</span>
+                    <span class="hourly-condition">—</span>
+        </div>
+                <div class="hourly-card">
+                    <span class="hourly-time" data-slot="3">9 PM</span>
+                    <i class="hourly-card-icon fa-solid fa-cloud" aria-hidden="true"></i>
+                    <span class="hourly-temp">—</span>
+                    <span class="hourly-condition">—</span>
+        </div>
+    </div>
+</section>
+
+        <!-- 7-day forecast -->
+        <section class="farmer-forecast" aria-labelledby="forecast-heading">
+            <div class="farmer-section-title">
+                <h2 id="forecast-heading">Key weather updates</h2>
+                <button type="button" id="View7Days" class="btn-view">View 7-day forecast</button>
+</div>
+<div class="WeatherCards">
+                <div class="weather-card"><h4 class="day">Sun</h4><i class="weather-card-icon fa-solid fa-cloud" aria-hidden="true"></i><span class="forecast-temp">—</span><span class="forecast-cond">—</span></div>
+                <div class="weather-card"><h4 class="day">Mon</h4><i class="weather-card-icon fa-solid fa-cloud" aria-hidden="true"></i><span class="forecast-temp">—</span><span class="forecast-cond">—</span></div>
+                <div class="weather-card"><h4 class="day">Tue</h4><i class="weather-card-icon fa-solid fa-cloud" aria-hidden="true"></i><span class="forecast-temp">—</span><span class="forecast-cond">—</span></div>
+                <div class="weather-card"><h4 class="day">Wed</h4><i class="weather-card-icon fa-solid fa-cloud" aria-hidden="true"></i><span class="forecast-temp">—</span><span class="forecast-cond">—</span></div>
+                <div class="weather-card"><h4 class="day">Thu</h4><i class="weather-card-icon fa-solid fa-cloud" aria-hidden="true"></i><span class="forecast-temp">—</span><span class="forecast-cond">—</span></div>
+                <div class="weather-card"><h4 class="day">Fri</h4><i class="weather-card-icon fa-solid fa-cloud" aria-hidden="true"></i><span class="forecast-temp">—</span><span class="forecast-cond">—</span></div>
+                <div class="weather-card"><h4 class="day">Sat</h4><i class="weather-card-icon fa-solid fa-cloud" aria-hidden="true"></i><span class="forecast-temp">—</span><span class="forecast-cond">—</span></div>
+            </div>
+        </section>
+
+        <!-- Alert signup / location -->
+        <section class="farmer-alert-card" aria-labelledby="alert-heading">
+            <div class="farmer-alert-row">
+                <input type="search" placeholder="Enter city or town" id="EnterCity" aria-label="Enter city or town">
+                <button type="button" id="SearchCityBtn" class="btn-location" aria-label="Get weather for this city">Search</button>
+                <button type="button" id="UseMyLocation2" class="btn-location">Use my current location</button>
+</div>
+        </section>
+
+        <!-- Farming advice -->
+        <section class="farmer-advice-panel" id="Notifications" aria-labelledby="advice-heading">
+            <h2 id="advice-heading">Farming advice</h2>
+            <ul>
+                <li>Alert 1</li>
+                <li>Alert 2</li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="farmer-footer-wave" aria-hidden="true">
+        <svg viewBox="0 0 1000 200" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0,100 C150,50 350,150 500,100 C650,50 850,150 1000,100" fill="none" stroke="#2d8a3e" stroke-width="2" opacity="0.4">
+      <animate attributeName="d" dur="6s" repeatCount="indefinite"
+                    values="M0,100 C150,50 350,150 500,100 C650,50 850,150 1000,100; M0,100 C150,70 350,130 500,100 C650,70 850,130 1000,100; M0,100 C150,50 350,150 500,100 C650,50 850,150 1000,100"/>
+    </path>
+            <path d="M0,120 C150,170 350,70 500,120 C650,170 850,70 1000,120" fill="none" stroke="#1a5f2a" stroke-width="2" opacity="0.3">
+      <animate attributeName="d" dur="6s" repeatCount="indefinite"
+                    values="M0,120 C150,170 350,70 500,120 C650,170 850,70 1000,120; M0,120 C150,150 350,90 500,120 C650,150 850,90 1000,120; M0,120 C150,170 350,70 500,120 C650,170 850,70 1000,120"/>
+    </path>
+  </svg>
+    </footer>
+
+    <script src="weather-api.js"></script>
+    <script>
+        var menuBtn = document.getElementById('optionsButton');
+        var menu = document.getElementById('menuDropdown');
+        if (menuBtn && menu) {
+            menuBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                menu.classList.toggle('active');
+            });
+            document.addEventListener('click', function () {
+                menu.classList.remove('active');
+            });
+        }
+
+        (function () {
+            var NOTIFICATION_KEY = 'smartWeather_farmer_notificationOn';
+            var notificationBtn = document.getElementById('menuNotification');
+            var notificationText = notificationBtn && notificationBtn.querySelector('.menu-notification-text');
+            var saved = localStorage.getItem(NOTIFICATION_KEY) === 'true';
+            if (notificationBtn) {
+                notificationBtn.setAttribute('aria-pressed', saved ? 'true' : 'false');
+                if (notificationText) notificationText.textContent = saved ? '🔔 Notification Signup: On' : '🔔 Notification Signup: Off';
+                notificationBtn.addEventListener('click', function () {
+                    var on = notificationBtn.getAttribute('aria-pressed') === 'true';
+                    on = !on;
+                    notificationBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                    if (notificationText) notificationText.textContent = on ? '🔔 Notification Signup: On' : '🔔 Notification Signup: Off';
+                    localStorage.setItem(NOTIFICATION_KEY, on ? 'true' : 'false');
+                    if (menu) menu.classList.remove('active');
+                });
+            }
+            var alertBtn = document.getElementById('SubscribeToAlerts');
+            if (alertBtn) {
+                var savedOn = localStorage.getItem(NOTIFICATION_KEY) === 'true';
+                alertBtn.setAttribute('aria-pressed', savedOn ? 'true' : 'false');
+                alertBtn.textContent = savedOn ? 'Alerts on' : 'Subscribe to alerts';
+                alertBtn.addEventListener('click', function () {
+                    var on = alertBtn.getAttribute('aria-pressed') === 'true';
+                    on = !on;
+                    alertBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                    alertBtn.textContent = on ? 'Alerts on' : 'Subscribe to alerts';
+                    localStorage.setItem(NOTIFICATION_KEY, on ? 'true' : 'false');
+                    if (notificationBtn) notificationBtn.setAttribute('aria-pressed', on ? 'true' : 'false');
+                    if (notificationText) notificationText.textContent = on ? '🔔 Notification Signup: On' : '🔔 Notification Signup: Off';
+                    if (on && window.WeatherAPI) {
+                        WeatherAPI.resetAlertThrottles('farmer');
+                        WeatherAPI.requestNotificationPermission().then(function (granted) {
+                            if (!granted) return;
+                            WeatherAPI.sendNotification('✅ Notifications Enabled', {
+                                body: 'You will now receive weather alerts for your area. Tap "Test Alert" to verify now.',
+                                tag: 'farmer_welcome',
+                                requireInteraction: true,
+                                vibrate: [300, 150, 300]
+                            });
+                        });
+                    }
+                });
+            }
+            var feedbackLink = document.getElementById('menuSendFeedback');
+            if (feedbackLink) {
+                feedbackLink.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    try {
+                      var user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null');
+                      if (user && (user.role === 'general' || user.role === 'farmer')) {
+                        var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                        var base = (origin && /^https?:\/\//i.test(origin)) ? origin : 'http://localhost:4000';
+                        var subjectText = 'Smart Weather – Farmer Feedback';
+                        fetch(base + '/api/feedback/log', {
+                          method: 'POST',
+                          headers: { 'Content-Type': 'application/json' },
+                          body: JSON.stringify({ email: user.email || '', role: user.role, subject: subjectText, source: 'farmer' })
+                        }).catch(function () {});
+                      }
+                    } catch (err) {}
+                    var subject = encodeURIComponent('Smart Weather – Farmer Feedback');
+                    var body = encodeURIComponent('Your message:\n\n');
+                    window.location.href = 'mailto:smartweather.local@gmail.com?subject=' + subject + '&body=' + body;
+                    if (menu) menu.classList.remove('active');
+                });
+            }
+            var logoutBtn = document.getElementById('menuLogout');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (menu) menu.classList.remove('active');
+                    if (confirm('Are you sure you want to logout?')) {
+                        window.location.href = 'Login.html';
+                    }
+                });
+            }
+            var testBtn = document.getElementById('TestNotificationFarmer');
+            if (testBtn) {
+                testBtn.addEventListener('click', function () {
+                    if (!window.Notification) {
+                        alert('This browser does not support notifications.');
+                        return;
+                    }
+                    if (Notification.permission !== 'granted') {
+                        localStorage.setItem(NOTIFICATION_KEY, 'true');
+                        if (alertBtn) alertBtn.setAttribute('aria-pressed', 'true');
+                        if (alertBtn) alertBtn.textContent = 'Alerts on';
+                        if (notificationBtn) notificationBtn.setAttribute('aria-pressed', 'true');
+                        if (notificationText) notificationText.textContent = '🔔 Notification Signup: On';
+                        WeatherAPI.requestNotificationPermission().then(function (granted) {
+                            if (!granted) {
+                                alert('Notifications blocked. Please allow them in your browser settings (Site info -> Notifications).');
+                                return;
+                            }
+                            sendFarmerTestNotif();
+                        });
+                    } else {
+                        sendFarmerTestNotif();
+                    }
+                });
+            }
+            function sendFarmerTestNotif() {
+                if (!window.WeatherAPI) return;
+                try { if (navigator.vibrate) navigator.vibrate([300, 150, 300]); } catch (e) {}
+                var sent = WeatherAPI.sendNotification('🔔 Farmer Test Alert', {
+                    body: 'Notifications are working correctly. This sample alert simulates severe weather.',
+                    tag: 'farmer_test',
+                    requireInteraction: true,
+                    vibrate: [300, 150, 300],
+                    silent: false
+                });
+                if (!sent) {
+                    alert('Notification failed to send. Check browser settings: Site Info -> Notifications = Allowed.');
+                }
+            }
+        })();
+
+        (function () {
+            function getApiBase() {
+                var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+                if (origin && /^https?:\/\//i.test(origin)) return origin;
+                return 'http://localhost:4000';
+            }
+            function exitKiosk() {
+                var base = getApiBase();
+                try { fetch(base + '/api/kiosk/exit', { method: 'POST' }).catch(function(){}); } catch (e) {}
+                setTimeout(function () {
+                    try { window.close(); } catch (e) {}
+                    setTimeout(function () {
+                        try { var w = window.open('', '_self'); if (w) w.close(); } catch (e) {}
+                    }, 120);
+                }, 180);
+            }
+            window.addEventListener('keydown', function (e) {
+                var k = e.key || e.code || '';
+                if (k === 'Escape' || k === 'Esc') {
+                    e.preventDefault();
+                    exitKiosk();
+                }
+            });
+        })();
+
+      (function () {
+        var DAY_NAMES = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+
+        function getDayLabel(date, index) {
+          if (index === 0) return 'Today';
+          if (index === 1) return 'Tomorrow';
+          return DAY_NAMES[date.getDay()];
+        }
+
+        function buildForecastDays() {
+          var today = new Date();
+          today.setHours(0, 0, 0, 0);
+          var days = [];
+          for (var i = 0; i < 7; i++) {
+            var d = new Date(today);
+            d.setDate(d.getDate() + i);
+            days.push({ date: d, label: getDayLabel(d, i) });
+          }
+          return days;
+        }
+
+        function updateWeatherCards() {
+          var container = document.querySelector('.farmer-forecast .WeatherCards');
+          if (!container) return;
+          var cards = container.querySelectorAll('.weather-card');
+          if (cards.length !== 7) return;
+
+          var days = buildForecastDays();
+          days.forEach(function (day, i) {
+            var card = cards[i];
+            if (!card) return;
+            var dayEl = card.querySelector('.day');
+            if (dayEl) dayEl.textContent = day.label;
+          });
+        }
+
+        updateWeatherCards();
+
+        // Re-run when the page becomes visible (e.g. user returns after midnight)
+        document.addEventListener('visibilitychange', function () {
+          if (document.visibilityState === 'visible') updateWeatherCards();
+        });
+
+        // Optional: refresh labels every minute so "Today" / "Tomorrow" stay correct
+        setInterval(updateWeatherCards, 60000);
+
+        (function () {
+          var DEFAULT_CITY = 'Freetown';
+          var locEl = document.querySelector('h2.farmer-location');
+          var todayCard = document.querySelector('.farmer-today-card');
+          var todayCondition = todayCard && todayCard.querySelector('.farmer-today-condition');
+          var todayIconEl = todayCard && todayCard.querySelector('.farmer-today-icon');
+          var todayTemp = todayCard && todayCard.querySelector('.farmer-today-temp');
+          var statValues = todayCard ? todayCard.querySelectorAll('.farmer-stat-value') : [];
+          var hourlyCards = document.querySelectorAll('.farmer-hourly-cards .hourly-card');
+          var forecastCards = document.querySelectorAll('.farmer-forecast .WeatherCards .weather-card');
+          var adviceConfigFarmer = null;
+
+          function setLoading(loading) {
+            if (locEl) locEl.textContent = loading ? 'Loading…' : (locEl.getAttribute('data-last-location') || '—');
+          }
+          function setError(msg) {
+            if (locEl) { locEl.textContent = msg || 'Unable to load weather. Check your connection.'; locEl.removeAttribute('data-last-location'); }
+            clearDashboard();
+          }
+          function getApiBase() {
+            var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+            if (origin && /^https?:\/\//i.test(origin)) return origin;
+            return 'http://localhost:4000';
+          }
+          function loadAdviceConfigFarmer() {
+            var base = getApiBase();
+            fetch(base + '/api/advice/config')
+              .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+              .then(function (resp) { adviceConfigFarmer = (resp && resp.body && resp.body.farmer) ? resp.body.farmer : null; })
+              .catch(function () { adviceConfigFarmer = null; });
+          }
+          function overrideFarmerAdvice(adv) {
+            if (!adv || !adviceConfigFarmer) return adv;
+            var cond = adviceConfigFarmer.conditions || {};
+            var crops = adviceConfigFarmer.crops || {};
+            var sev = adviceConfigFarmer.severity || {};
+            var t = null;
+            switch (adv.conditionKey) {
+              case 'thunderstorm': t = cond.thunderstormText; break;
+              case 'rain': t = cond.rainText; break;
+              case 'heat': t = cond.heatText; break;
+              case 'wind_moderate': t = cond.windModerateText; break;
+              case 'humidity_high': t = cond.humidityHighText; break;
+              case 'safe': t = cond.safeText || sev.safeText; break;
+              case 'rice_humidity_high': t = crops.riceHumidityHighText; break;
+              case 'maize_heat_high': t = crops.maizeHeatHighText; break;
+            }
+            if (!t && adv.severity) {
+              if (adv.severity === 'high') t = sev.highText;
+              else if (adv.severity === 'moderate') t = sev.moderateText;
+              else t = sev.safeText;
+            }
+            if (t) return { text: t, severity: adv.severity, conditionKey: adv.conditionKey };
+            return adv;
+          }
+          function logWeatherRequest(label) {
+            try {
+              var user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null');
+              if (!user || (user.role !== 'general' && user.role !== 'farmer')) return;
+              var base = getApiBase();
+              fetch(base + '/api/weather/request', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email: user.email || '', role: user.role, location: label || '' })
+              }).catch(function () {});
+            } catch (e) {}
+          }
+          function clearDashboard() {
+            if (todayCondition) todayCondition.textContent = '—';
+            if (todayTemp) todayTemp.textContent = '—';
+            if (todayIconEl) todayIconEl.className = 'farmer-today-icon fa-solid fa-cloud wicon-cloud';
+            var advEl = todayCard && todayCard.querySelector('.farmer-today-advice');
+            if (advEl) advEl.textContent = '—';
+            var i;
+            if (statValues && statValues.length >= 4) for (i = 0; i < 4; i++) statValues[i].textContent = '—';
+            var defaultHours = ['6 AM', '12 PM', '6 PM', '9 PM'];
+            for (i = 0; i < hourlyCards.length; i++) {
+              var card = hourlyCards[i];
+              var timeEl = card.querySelector('.hourly-time');
+              var iconEl = card.querySelector('.hourly-card-icon');
+              var tempEl = card.querySelector('.hourly-temp');
+              var condEl = card.querySelector('.hourly-condition');
+              if (timeEl) timeEl.textContent = defaultHours[i] || '—';
+              if (iconEl) iconEl.className = 'hourly-card-icon fa-solid fa-cloud wicon-cloud';
+              if (tempEl) tempEl.textContent = '—';
+              if (condEl) condEl.textContent = '—';
+            }
+            for (i = 0; i < forecastCards.length; i++) {
+              var tempEl = forecastCards[i].querySelector('.forecast-temp');
+              var condEl = forecastCards[i].querySelector('.forecast-cond');
+              var iconEl = forecastCards[i].querySelector('.weather-card-icon');
+              if (tempEl) tempEl.textContent = '—';
+              if (condEl) condEl.textContent = '—';
+              if (iconEl) iconEl.className = 'weather-card-icon fa-solid fa-cloud wicon-cloud';
+            }
+          }
+          function fillDashboard(data) {
+            if (!data || !window.WeatherAPI) return;
+            if (locEl) { locEl.textContent = data.location; locEl.setAttribute('data-last-location', data.location); }
+            var cur = WeatherAPI.normalizeCurrent(data.current);
+            if (cur) {
+              if (todayCondition) todayCondition.textContent = WeatherAPI.formatDescription(cur.description);
+              if (todayIconEl) todayIconEl.className = 'farmer-today-icon ' + (cur.icon || 'fa-solid fa-cloud') + ' ' + (cur.iconColor || 'wicon-cloud');
+              if (todayTemp) todayTemp.textContent = cur.temp + '°C';
+              if (statValues.length >= 4) {
+                statValues[0].textContent = cur.temp + '°C';
+                statValues[1].textContent = cur.humidity;
+                statValues[2].textContent = cur.wind;
+                statValues[3].textContent = cur.pressure;
+              }
+              var cropPref = null;
+              try { cropPref = (localStorage.getItem('smartWeather_farmerCrop') || '').trim().toLowerCase() || null; } catch (e) {}
+              var adv = WeatherAPI.getAdviceData('farmer', cur, { crop: cropPref });
+              adv = overrideFarmerAdvice(adv);
+              var advEl = todayCard && todayCard.querySelector('.farmer-today-advice');
+              if (advEl) {
+                var color = adv && adv.severity === 'high' ? '#b91c1c' : (adv && adv.severity === 'moderate' ? '#d97706' : '#15803d');
+                var text = (adv && adv.text) ? adv.text : '—';
+                advEl.innerHTML = '<span style="display:inline-block;color:' + color + ';font-size:1.25em;line-height:1;margin-right:6px;">●</span><strong>' + text + '</strong>';
+              }
+
+              // Update Notification Section (only for current location)
+              var notifContainer = document.getElementById('Notifications');
+              var currentLocation = data.location || '';
+              if (notifContainer) {
+                // Register this as the ACTIVE alert location — clears previous location's throttles
+                if (currentLocation && window.WeatherAPI && WeatherAPI.setActiveAlertLocation) {
+                  WeatherAPI.setActiveAlertLocation('farmer', currentLocation);
+                }
+
+                var adviceHeading = notifContainer.querySelector('#advice-heading');
+                if (adviceHeading && currentLocation) {
+                  adviceHeading.innerHTML = 'Farming advice for <span style="color:#2d8a3e;">' + currentLocation + '</span>';
+                }
+
+                var notifList = notifContainer.querySelector('ul');
+                if (notifList) {
+                  var notifications = WeatherAPI.getNotifications('farmer', cur, { crop: cropPref });
+                  
+                  // Apply overrides from admin config
+                  if (adviceConfigFarmer) {
+                    notifications = notifications.map(function(n) {
+                      var overridden = overrideFarmerAdvice(n);
+                      return overridden;
+                    });
+                  }
+
+                  var html = '';
+                  notifications.forEach(function(n) {
+                    var nColor = n.severity === 'high' ? '#b91c1c' : (n.severity === 'moderate' ? '#d97706' : '#15803d');
+                    var nIcon = n.severity === 'high' ? 'fa-triangle-exclamation' : (n.severity === 'moderate' ? 'fa-circle-info' : 'fa-circle-check');
+                    html += '<li style="margin-bottom: 8px; list-style: none; padding: 10px; border-radius: 6px; background: rgba(0,0,0,0.03); border-left: 4px solid ' + nColor + ';">' +
+                            '<i class="fa-solid ' + nIcon + '" style="color:' + nColor + '; margin-right: 10px;"></i>' +
+                            '<strong>' + n.text + '</strong>' +
+                            '</li>';
+                  });
+                  notifList.innerHTML = html;
+
+                  // Dispatch push notifications (mobile-friendly) — ONLY for current location
+                  var notifOn = localStorage.getItem('smartWeather_farmer_notificationOn') === 'true';
+                  if (notifOn && Notification && Notification.permission === 'granted') {
+                    notifications.forEach(function(n) {
+                      if (n.severity === 'high' || n.severity === 'moderate') {
+                        var shouldFire = WeatherAPI.shouldFireAlert(n.conditionKey, 'farmer', notifOn, undefined, false, currentLocation);
+                        if (shouldFire) {
+                          var title = (n.severity === 'high' ? '⚠ Severe Weather Alert' : 'ℹ Weather Advisory') + (currentLocation ? ' — ' + currentLocation : '');
+                          var locTag = currentLocation ? '_' + String(currentLocation).trim().toLowerCase().replace(/[^a-z0-9]/g, '_') : '';
+                          var sent = WeatherAPI.sendNotification(title, { body: n.text, tag: 'farmer_' + n.conditionKey + locTag });
+                          if (sent) WeatherAPI.markAlertSent(n.conditionKey, 'farmer', currentLocation);
+                        }
+                      }
+                    });
+                  }
+                }
+              }
+            }
+            var hourly = WeatherAPI.buildHourlySlots(data.forecast, [6, 12, 18, 21]);
+            for (var i = 0; i < hourly.length && i < hourlyCards.length; i++) {
+              var card = hourlyCards[i];
+              var h = hourly[i];
+              var timeEl = card.querySelector('.hourly-time');
+              var iconEl = card.querySelector('.hourly-card-icon');
+              var tempEl = card.querySelector('.hourly-temp');
+              var condEl = card.querySelector('.hourly-condition');
+              if (timeEl) timeEl.textContent = h.hour;
+              if (iconEl) iconEl.className = 'hourly-card-icon ' + (h.icon || 'fa-solid fa-cloud') + ' ' + (h.iconColor || 'wicon-cloud');
+              if (tempEl) tempEl.textContent = h.temp;
+              if (condEl) condEl.textContent = WeatherAPI.formatDescription(h.condition);
+            }
+            var daily = WeatherAPI.buildDailyForecast(data.forecast);
+            for (var j = 0; j < forecastCards.length; j++) {
+              var card = forecastCards[j];
+              var tempEl = card.querySelector('.forecast-temp');
+              var condEl = card.querySelector('.forecast-cond');
+              var iconEl = card.querySelector('.weather-card-icon');
+              if (tempEl) {
+                if (j < daily.length && daily[j].temp != null) tempEl.textContent = daily[j].temp + '°C';
+                else tempEl.textContent = '—';
+              }
+              if (condEl) {
+                if (j < daily.length && daily[j].description) condEl.textContent = WeatherAPI.formatDescription(daily[j].description);
+                else condEl.textContent = '—';
+              }
+              if (iconEl) iconEl.className = 'weather-card-icon ' + (daily[j] && daily[j].icon ? daily[j].icon : 'fa-solid fa-cloud') + ' ' + (daily[j] && daily[j].iconColor ? daily[j].iconColor : 'wicon-cloud');
+            }
+          }
+
+          function loadWeather(cityOrCoords) {
+            if (!window.WeatherAPI) return;
+            if (!WeatherAPI.isConfigured()) {
+              setError('Set your OpenWeather API key in weather-api.js');
+              return;
+            }
+            setLoading(true);
+            var attempted = typeof cityOrCoords === 'string' ? (cityOrCoords || DEFAULT_CITY) : 'Current Location';
+            var p = typeof cityOrCoords === 'string'
+              ? WeatherAPI.getWeatherByCity(cityOrCoords || DEFAULT_CITY)
+              : WeatherAPI.getWeatherByCoords(cityOrCoords.lat, cityOrCoords.lon);
+            p.then(function (data) {
+              setLoading(false);
+              fillDashboard(data);
+              var sb = document.getElementById('searchBox');
+              var ec = document.getElementById('EnterCity');
+              if (sb) sb.value = data.location || '';
+              if (ec) ec.value = data.location || '';
+              try {
+                var user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null');
+                if (user && (user.role === 'general' || user.role === 'farmer')) {
+                  var cur = WeatherAPI.normalizeCurrent(data.current);
+                  var base = getApiBase();
+                  fetch(base + '/api/weather/request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      email: user.email || '',
+                      role: user.role,
+                      location: data.location || attempted,
+                      temperature: cur && cur.temp != null ? (cur.temp + '°C') : '',
+                      humidity: cur && cur.humidity ? cur.humidity : '',
+                      wind: cur && cur.wind ? cur.wind : '',
+                      pressure: cur && cur.pressure ? cur.pressure : '',
+                      condition: cur && cur.description ? WeatherAPI.formatDescription(cur.description) : ''
+                    })
+                  }).catch(function () {});
+                }
+              } catch (e) {}
+            }).catch(function () {
+              setLoading(false);
+              setError(navigator.onLine ? 'Could not load weather. Check city or API key.' : 'You appear to be offline. Connect to the internet to load weather.');
+              try {
+                var user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null');
+                if (user && (user.role === 'general' || user.role === 'farmer')) {
+                  var base = getApiBase();
+                  fetch(base + '/api/weather/request', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: user.email || '', role: user.role, location: attempted })
+                  }).catch(function () {});
+                }
+              } catch (e) {}
+            });
+          }
+
+          function onSearch() {
+            var q = document.getElementById('searchBox');
+            var city = (q && q.value && q.value.trim()) || DEFAULT_CITY;
+            loadWeather(city);
+          }
+          function fallbackIpLocation() {
+            var providers = [
+              { url: 'https://ipapi.co/json/', parse: function (j) { return j && j.latitude != null && j.longitude != null ? { lat: j.latitude, lon: j.longitude } : (j && j.city ? j.city : null); } },
+              { url: 'https://ipinfo.io/json', parse: function (j) { var loc = j && j.loc; if (loc && typeof loc === 'string' && loc.indexOf(',') > -1) { var parts = loc.split(','); return { lat: parseFloat(parts[0]), lon: parseFloat(parts[1]) }; } return j && j.city ? j.city : null; } },
+              { url: 'https://ipwho.is/', parse: function (j) { return j && j.success && j.latitude != null && j.longitude != null ? { lat: j.latitude, lon: j.longitude } : (j && j.city ? j.city : null); } }
+            ];
+            var i = 0;
+            function attempt() {
+              var p = providers[i++];
+              if (!p) { setLoading(false); setError('Unable to determine your location. Please search by city.'); return; }
+              fetch(p.url).then(function (r) { return r.json(); }).then(function (j) {
+                var val = p.parse(j);
+                if (!val) { attempt(); return; }
+                if (typeof val === 'string') { loadWeather(val); }
+                else if (val && typeof val.lat === 'number' && typeof val.lon === 'number') { loadWeather({ lat: val.lat, lon: val.lon }); }
+                else { attempt(); }
+              }).catch(function () { attempt(); });
+            }
+            attempt();
+          }
+          function onUseLocation() {
+            setLoading(true);
+            if (!navigator.geolocation) { fallbackIpLocation(); return; }
+            var optionsHigh = { enableHighAccuracy: true, timeout: 10000, maximumAge: 120000 };
+            var optionsLow = { enableHighAccuracy: false, timeout: 10000, maximumAge: 0 };
+            function success(pos) {
+              var lat = pos.coords.latitude;
+              var lon = pos.coords.longitude;
+              loadWeather({ lat: lat, lon: lon });
+            }
+            function fail() { fallbackIpLocation(); }
+            navigator.geolocation.getCurrentPosition(success, function () {
+              navigator.geolocation.getCurrentPosition(success, fail, optionsLow);
+            }, optionsHigh);
+          }
+
+          var searchBox = document.getElementById('searchBox');
+          var useLoc = document.getElementById('UseMyLocation');
+          var enterCity = document.getElementById('EnterCity');
+          var useLoc2 = document.getElementById('UseMyLocation2');
+          var searchBtn = document.getElementById('SearchBtn');
+          var searchCityBtn = document.getElementById('SearchCityBtn');
+          if (searchBox) searchBox.addEventListener('keydown', function (e) { if (e.key === 'Enter') onSearch(); });
+          if (searchBtn) searchBtn.addEventListener('click', onSearch);
+          if (useLoc) useLoc.addEventListener('click', onUseLocation);
+          if (enterCity) enterCity.addEventListener('keydown', function (e) { if (e.key === 'Enter') { var v = enterCity.value.trim(); loadWeather(v || DEFAULT_CITY); } });
+          if (searchCityBtn) searchCityBtn.addEventListener('click', function () { var v = enterCity && enterCity.value ? enterCity.value.trim() : ''; loadWeather(v || DEFAULT_CITY); });
+          if (useLoc2) useLoc2.addEventListener('click', onUseLocation);
+
+          // Weather Accuracy Reporting
+          (function() {
+            var widget = document.getElementById('accuracy-widget');
+            var feedback = document.getElementById('accuracy-feedback');
+            var buttons = widget ? widget.querySelectorAll('.btn-accuracy') : [];
+            
+            buttons.forEach(function(btn) {
+              btn.addEventListener('click', function() {
+                var accuracy = btn.getAttribute('data-accuracy');
+                var user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || '{}');
+                var loc = (locEl && locEl.textContent) ? locEl.textContent : 'Unknown';
+                var pred = (todayCondition && todayCondition.textContent) ? todayCondition.textContent : '';
+                
+                var base = getApiBase();
+                fetch(base + '/api/weather/report', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    email: user.email || '',
+                    role: user.role || 'farmer',
+                    location: loc,
+                    predictedCondition: pred,
+                    accuracy: accuracy
+                  })
+                }).then(function() {
+                  if (feedback) feedback.style.display = 'block';
+                  // Disable buttons after reporting
+                  buttons.forEach(function(b) { b.disabled = true; b.style.opacity = '0.5'; b.style.cursor = 'default'; });
+                }).catch(function() {});
+              });
+            });
+          })();
+
+          if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', function () {
+              if (!navigator.onLine) setError('You appear to be offline. Connect to the internet to load weather.');
+              else { loadAdviceConfigFarmer(); loadWeather(DEFAULT_CITY); }
+            });
+          } else {
+            if (!navigator.onLine) setError('You appear to be offline. Connect to the internet to load weather.');
+            else { loadAdviceConfigFarmer(); loadWeather(DEFAULT_CITY); }
+          }
+          window.addEventListener('online', function () { loadWeather(locEl && locEl.getAttribute('data-last-location') ? locEl.getAttribute('data-last-location') : DEFAULT_CITY); });
+        })();
+      })();
+    </script>
+
+</body>
+</html>

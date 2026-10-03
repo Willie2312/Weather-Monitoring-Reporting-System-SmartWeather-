@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Users</title>
+    <link rel="stylesheet" href="Admindashboard.css">
+    <link rel="stylesheet" href="admin-users.css">
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css">
+</head>
+<body>
+    <div class="admin-layout">
+        <aside class="NavbarDivContainer">
+            <h1 id="name">
+                <i class="fa-solid fa-cloud fa-xl" style="color:rgb(86, 167, 228);"></i>
+                Smart<i style="font-weight: bold;"><span style="color: blue;">W</span>eather</i>
+            </h1>
+            <nav class="NavbarContainer" aria-label="Admin navigation">
+                <ul id="navbars">
+                    <li><a href="AdminDashboard.html">Dashboard</a></li>
+                    <li class="active1"><a href="ADMINusers.html">Users</a></li>
+                    <li><a href="ADMINfarmingAdvice.html">Farming Advice</a></li>
+                    <li><a href="ADMINGeneralUserAdvice.html">G‑Users Advice</a></li>
+                    <li><a href="ADMINWeatherlogs.html">Weather logs</a></li>
+                    <li><a href="ADMINfeedback.html">Feedback</a></li>
+                    <li><a href="ADMINsettings.html">Settings</a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header class="users-page-header">
+                <div>
+                    <h1>Users</h1>
+                    <p class="users-page-subtitle">General users and farmers who have signed in to the system. Manage access and profiles.</p>
+                </div>
+            </header>
+
+            <section class="users-filters" aria-label="User filters">
+                <input type="search" id="searchUsers" placeholder="Search by name or email..." aria-label="Search users">
+                <select id="userTypeFilter" aria-label="User type">
+                    <option value="">All types</option>
+                    <option value="farmer">Farmer</option>
+                    <option value="general">General user</option>
+                </select>
+                <select id="statusFilter" aria-label="Status">
+                    <option value="">All status</option>
+                    <option value="active">Active</option>
+                    <option value="blocked">Blocked</option>
+                </select>
+            </section>
+
+            <div class="users-table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Last sign-in</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- View User Modal -->
+            <div class="user-modal-overlay" id="viewUserOverlay">
+                <div class="user-modal" role="dialog" aria-labelledby="viewUserModalTitle">
+                    <div class="user-modal-header">
+                        <h2 id="viewUserModalTitle">User profile</h2>
+                        <button type="button" class="user-modal-close" id="viewUserClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div class="user-modal-body" id="viewUserBody">
+                        <p><strong>Name:</strong> <span id="viewName"></span></p>
+                        <p><strong>Email:</strong> <span id="viewEmail"></span></p>
+                        <p><strong>Role:</strong> <span id="viewRole"></span></p>
+                        <p><strong>Status:</strong> <span id="viewStatus"></span></p>
+                        <p><strong>Last sign-in:</strong> <span id="viewLastSignIn"></span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit User Modal -->
+            <div class="user-modal-overlay" id="editUserOverlay">
+                <div class="user-modal" role="dialog" aria-labelledby="editUserModalTitle">
+                    <div class="user-modal-header">
+                        <h2 id="editUserModalTitle">Edit user</h2>
+                        <button type="button" class="user-modal-close" id="editUserClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <form class="user-edit-form" id="editUserForm">
+                        <input type="hidden" id="editUserId">
+                        <div class="user-edit-row">
+                            <label>Name</label>
+                            <input type="text" id="editName" required>
+                        </div>
+                        <div class="user-edit-row">
+                            <label>Email</label>
+                            <input type="email" id="editEmail" required>
+                        </div>
+                        <div class="user-edit-row">
+                            <label>Role</label>
+                            <select id="editRole">
+                                <option value="farmer">Farmer</option>
+                                <option value="general">General user</option>
+                            </select>
+                        </div>
+                        <div class="user-modal-actions">
+                            <button type="button" class="user-btn-secondary" id="editUserCancel">Cancel</button>
+                            <button type="submit" class="user-btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Reset Password Modal -->
+            <div class="user-modal-overlay" id="resetPasswordOverlay">
+                <div class="user-modal" role="dialog" aria-labelledby="resetPasswordModalTitle">
+                    <div class="user-modal-header">
+                        <h2 id="resetPasswordModalTitle">Reset user password</h2>
+                        <button type="button" class="user-modal-close" id="resetPasswordClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <form class="user-edit-form" id="resetPasswordForm">
+                        <input type="hidden" id="resetPasswordEmail">
+                        <input type="hidden" id="resetPasswordRole">
+                        <div style="background: #fef3c7; border: 1px solid #f59e0b; border-radius: 8px; padding: 12px; margin-bottom: 16px;">
+                            <p style="margin: 0; font-size: 0.88rem; color: #92400e;">
+                                <i class="fa-solid fa-shield-halved" style="margin-right: 6px;"></i>
+                                <strong>Security notice:</strong> Passwords are encrypted with bcrypt and cannot be viewed.
+                                You will set a <em>temporary password</em> for the user. They will be required to change it on their next login.
+                            </p>
+                        </div>
+                        <div class="user-edit-row">
+                            <label>User</label>
+                            <input type="text" id="resetPasswordUserLabel" disabled style="background: #f3f4f6;">
+                        </div>
+                        <div class="user-edit-row">
+                            <label for="resetPasswordNew">Temporary password</label>
+                            <div style="position: relative;">
+                                <input type="text" id="resetPasswordNew" minlength="6" required placeholder="Min. 6 characters" style="padding-right: 90px;">
+                                <button type="button" id="generateTempPwd" style="position: absolute; right: 6px; top: 50%; transform: translateY(-50%); padding: 4px 10px; font-size: 0.8rem; background: #2563eb; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+                                    <i class="fa-solid fa-wand-magic-sparkles"></i> Generate
+                                </button>
+                            </div>
+                            <p style="margin: 4px 0 0 0; font-size: 0.78rem; color: #6b7280;">Write this down — it is only shown once.</p>
+                        </div>
+                        <div class="user-modal-actions">
+                            <button type="button" class="user-btn-secondary" id="resetPasswordCancel">Cancel</button>
+                            <button type="submit" class="user-btn-primary" style="background: #b45309; border-color: #92400e;">
+                                <i class="fa-solid fa-key"></i> Reset &amp; show password
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Reset Password Result Modal -->
+            <div class="user-modal-overlay" id="resetResultOverlay">
+                <div class="user-modal" role="dialog" aria-labelledby="resetResultTitle">
+                    <div class="user-modal-header" style="background: #15803d; color: #fff;">
+                        <h2 id="resetResultTitle"><i class="fa-solid fa-check-circle"></i> Password reset successful</h2>
+                        <button type="button" class="user-modal-close" id="resetResultClose" aria-label="Close" style="color: #fff;"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div style="padding: 24px;">
+                        <p style="margin: 0 0 16px 0; color: #374151;">Provide the following credentials to the user:</p>
+                        <div style="background: #ecfdf5; border: 1px dashed #10b981; border-radius: 10px; padding: 18px; margin-bottom: 16px;">
+                            <p style="margin: 0 0 8px 0; font-size: 0.9rem;"><strong style="color: #065f46;">Email:</strong> <span id="resultEmail" style="font-family: monospace;"></span></p>
+                            <p style="margin: 0 0 8px 0; font-size: 0.9rem;"><strong style="color: #065f46;">Temporary password:</strong></p>
+                            <div style="background: #fff; border: 1px solid #10b981; border-radius: 6px; padding: 10px; display: flex; align-items: center; justify-content: space-between;">
+                                <span id="resultPassword" style="font-family: monospace; font-size: 1.1rem; font-weight: bold; color: #065f46; letter-spacing: 1px;"></span>
+                                <button type="button" id="copyResultPwd" style="background: none; border: none; color: #065f46; cursor: pointer; font-size: 1rem;" title="Copy to clipboard">
+                                    <i class="fa-solid fa-copy"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div style="background: #dbeafe; border: 1px solid #93c5fd; border-radius: 8px; padding: 12px;">
+                            <p style="margin: 0; font-size: 0.88rem; color: #1e40af;">
+                                <i class="fa-solid fa-circle-info"></i> The user will be <strong>required to change their password</strong> immediately after logging in with this temporary password.
+                            </p>
+                        </div>
+                        <div class="user-modal-actions" style="margin-top: 20px; justify-content: flex-end;">
+                            <button type="button" class="user-btn-primary" id="resetResultDone">Done</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div> 
+
+    <script>
+      (function () {
+        var tableBody = document.getElementById('usersTableBody');
+        var searchInput = document.getElementById('searchUsers');
+        var typeFilter = document.getElementById('userTypeFilter');
+        var statusFilter = document.getElementById('statusFilter');
+        function ensureAdmin() {
+          var user = null;
+          try { user = JSON.parse(localStorage.getItem('smartWeather_currentUser') || 'null'); } catch (e) { user = null; }
+          if (!user || user.role !== 'admin') {
+            window.location.href = 'Login.html';
+            return false;
+          }
+          return true;
+        }
+        function formatDateISOToDisplay(iso) {
+          if (!iso) return '—';
+          var d = new Date(iso);
+          if (isNaN(d.getTime())) return '—';
+          return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+        }
+        function addUserRow(u) {
+          if (!tableBody) return;
+          var tr = document.createElement('tr');
+          tr.setAttribute('data-role', u.role || '');
+          var isBlocked = !!u.blocked;
+          tr.setAttribute('data-status', isBlocked ? 'blocked' : 'active');
+          var nameTd = document.createElement('td'); nameTd.textContent = u.name || '—';
+          var emailTd = document.createElement('td'); emailTd.textContent = u.email || '—';
+          var roleTd = document.createElement('td');
+          var roleSpan = document.createElement('span');
+          roleSpan.className = 'user-role-badge ' + ((u.role === 'farmer') ? 'farmer' : 'general');
+          roleSpan.textContent = (u.role === 'farmer') ? 'Farmer' : 'General user';
+          roleTd.appendChild(roleSpan);
+          var statusTd = document.createElement('td');
+          var statusSpan = document.createElement('span');
+          statusSpan.className = 'user-status-badge ' + (isBlocked ? 'blocked' : 'active');
+          statusSpan.textContent = isBlocked ? 'Blocked' : 'Active';
+          statusTd.appendChild(statusSpan);
+          var lastTd = document.createElement('td'); lastTd.textContent = formatDateISOToDisplay(u.lastLoginAt || u.createdAt);
+          var actionsTd = document.createElement('td');
+          var actions = document.createElement('div'); actions.className = 'user-actions';
+          var viewBtn = document.createElement('button'); viewBtn.type = 'button'; viewBtn.className = 'user-action-btn view'; viewBtn.innerHTML = '<i class="fa-solid fa-eye"></i> View';
+          var editBtn = document.createElement('button'); editBtn.type = 'button'; editBtn.className = 'user-action-btn edit'; editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit';
+          var resetPwdBtn = document.createElement('button'); resetPwdBtn.type = 'button'; resetPwdBtn.className = 'user-action-btn'; resetPwdBtn.style.background = '#b45309'; resetPwdBtn.style.borderColor = '#92400e'; resetPwdBtn.style.color = '#fff'; resetPwdBtn.innerHTML = '<i class="fa-solid fa-key"></i> Reset Pwd';
+          var blockBtn = document.createElement('button'); blockBtn.type = 'button'; blockBtn.className = 'user-action-btn ' + (isBlocked ? 'unblock' : 'block'); blockBtn.innerHTML = isBlocked ? '<i class="fa-solid fa-check"></i> Unblock' : '<i class="fa-solid fa-ban"></i> Block';
+          var deleteBtn = document.createElement('button'); deleteBtn.type = 'button'; deleteBtn.className = 'user-action-btn delete'; deleteBtn.innerHTML = '<i class="fa-solid fa-trash"></i> Delete';
+          actions.appendChild(viewBtn); actions.appendChild(editBtn); actions.appendChild(resetPwdBtn); actions.appendChild(blockBtn); actions.appendChild(deleteBtn);
+          actionsTd.appendChild(actions);
+          tr.appendChild(nameTd); tr.appendChild(emailTd); tr.appendChild(roleTd); tr.appendChild(statusTd); tr.appendChild(lastTd); tr.appendChild(actionsTd);
+          tableBody.appendChild(tr);
+          viewBtn.addEventListener('click', function () { openViewModal(tr); });
+          editBtn.addEventListener('click', function () { openEditModal(tr); });
+          resetPwdBtn.addEventListener('click', function () { openResetPasswordModal(u); });
+          function getApiBase() {
+            var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+            if (origin && /^https?:\/\//i.test(origin)) return origin;
+            return 'http://localhost:4000';
+          }
+          function setBlockedUI(blocked) {
+            tr.setAttribute('data-status', blocked ? 'blocked' : 'active');
+            statusSpan.textContent = blocked ? 'Blocked' : 'Active';
+            statusSpan.className = 'user-status-badge ' + (blocked ? 'blocked' : 'active');
+            if (blocked) {
+              blockBtn.className = 'user-action-btn unblock';
+              blockBtn.innerHTML = '<i class="fa-solid fa-check"></i> Unblock';
+            } else {
+              blockBtn.className = 'user-action-btn block';
+              blockBtn.innerHTML = '<i class="fa-solid fa-ban"></i> Block';
+            }
+          }
+          blockBtn.addEventListener('click', function () {
+            var base = getApiBase();
+            var shouldBlock = blockBtn.classList.contains('block');
+            fetch(base + '/api/admin/users/block', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: u.email, role: u.role, block: shouldBlock })
+            }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+            .then(function (resp) {
+              if (resp.ok && resp.body && typeof resp.body.blocked === 'boolean') setBlockedUI(resp.body.blocked);
+            }).catch(function () {});
+          });
+          deleteBtn.addEventListener('click', function () {
+            var base = getApiBase();
+            if (!confirm('Remove user "' + (u.name || u.email || '') + '" from the system?')) return;
+            fetch(base + '/api/admin/users/delete', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ email: u.email, role: u.role })
+            }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+            .then(function (resp) {
+              if (resp.ok && tableBody && tr.parentNode === tableBody) tr.remove();
+            }).catch(function () {});
+          });
+        }
+        function getApiBase() {
+          var origin = (window && window.location && window.location.origin) ? window.location.origin : '';
+          if (origin && /^https?:\/\//i.test(origin)) return origin;
+          return 'http://localhost:4000';
+        }
+        function loadUsers() {
+          if (!ensureAdmin()) return;
+          if (tableBody) tableBody.innerHTML = '<tr><td colspan="6">Loading users…</td></tr>';
+          var base = getApiBase();
+          fetch(base + '/api/admin/users')
+            .then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+            .then(function (resp) {
+              if (!tableBody) return;
+              tableBody.innerHTML = '';
+              if (resp.ok && resp.body && Array.isArray(resp.body.users)) {
+                resp.body.users.forEach(addUserRow);
+                filterRows();
+                // rewire view/edit buttons for newly added rows
+                document.querySelectorAll('.user-action-btn.view').forEach(function (btn) {
+                  btn.addEventListener('click', function () {
+                    var row = btn.closest('tr');
+                    if (row) openViewModal(row);
+                  });
+                });
+                document.querySelectorAll('.user-action-btn.edit').forEach(function (btn) {
+                  btn.addEventListener('click', function () {
+                    var row = btn.closest('tr');
+                    if (row) openEditModal(row);
+                  });
+                });
+              } else {
+                tableBody.innerHTML = '<tr><td colspan="6">Could not load users.</td></tr>';
+              }
+            })
+            .catch(function () {
+              if (!tableBody) return;
+              var base = getApiBase();
+              tableBody.innerHTML = '<tr><td colspan="6">Cannot reach server at ' + base + '.</td></tr>';
+            });
+        }
+
+        function filterRows() {
+          var search = (searchInput && searchInput.value) ? searchInput.value.trim().toLowerCase() : '';
+          var type = typeFilter ? typeFilter.value : '';
+          var status = statusFilter ? statusFilter.value : '';
+          var rows = tableBody ? tableBody.querySelectorAll('tr') : [];
+          rows.forEach(function (row) {
+            var name = (row.cells[0] && row.cells[0].textContent) ? row.cells[0].textContent.trim().toLowerCase() : '';
+            var email = (row.cells[1] && row.cells[1].textContent) ? row.cells[1].textContent.trim().toLowerCase() : '';
+            var rowRole = row.getAttribute('data-role') || '';
+            var rowStatus = row.getAttribute('data-status') || '';
+            var matchSearch = !search || name.indexOf(search) !== -1 || email.indexOf(search) !== -1;
+            var matchType = !type || rowRole === type;
+            var matchStatus = !status || rowStatus === status;
+            row.style.display = matchSearch && matchType && matchStatus ? '' : 'none';
+          });
+        }
+        if (searchInput) searchInput.addEventListener('input', filterRows);
+        if (typeFilter) typeFilter.addEventListener('change', filterRows);
+        if (statusFilter) statusFilter.addEventListener('change', filterRows);
+
+        var viewOverlay = document.getElementById('viewUserOverlay');
+        var viewClose = document.getElementById('viewUserClose');
+        var editOverlay = document.getElementById('editUserOverlay');
+        var editClose = document.getElementById('editUserClose');
+        var editCancel = document.getElementById('editUserCancel');
+        var editForm = document.getElementById('editUserForm');
+
+        function openViewModal(row) {
+          if (!row || !viewOverlay) return;
+          document.getElementById('viewName').textContent = row.cells[0] ? row.cells[0].textContent.trim() : '';
+          document.getElementById('viewEmail').textContent = row.cells[1] ? row.cells[1].textContent.trim() : '';
+          document.getElementById('viewRole').textContent = row.cells[2] ? row.cells[2].textContent.trim() : '';
+          document.getElementById('viewStatus').textContent = row.cells[3] ? row.cells[3].textContent.trim() : '';
+          document.getElementById('viewLastSignIn').textContent = row.cells[4] ? row.cells[4].textContent.trim() : '';
+          viewOverlay.classList.add('is-open');
+        }
+        function closeViewModal() {
+          if (viewOverlay) viewOverlay.classList.remove('is-open');
+        }
+
+        var currentEditRow = null;
+        function openEditModal(row) {
+          if (!row || !editOverlay) return;
+          currentEditRow = row;
+          document.getElementById('editUserId').value = row.getAttribute('data-user-id') || '';
+          document.getElementById('editName').value = row.cells[0] ? row.cells[0].textContent.trim() : '';
+          document.getElementById('editEmail').value = row.cells[1] ? row.cells[1].textContent.trim() : '';
+          var roleText = row.cells[2] ? row.cells[2].textContent.trim() : '';
+          document.getElementById('editRole').value = roleText.toLowerCase().indexOf('farmer') !== -1 ? 'farmer' : 'general';
+          editOverlay.classList.add('is-open');
+        }
+        function closeEditModal() {
+          if (editOverlay) editOverlay.classList.remove('is-open');
+          currentEditRow = null;
+        }
+
+        if (viewClose) viewClose.addEventListener('click', closeViewModal);
+        if (editClose) editClose.addEventListener('click', closeEditModal);
+        if (editCancel) editCancel.addEventListener('click', closeEditModal);
+        viewOverlay && viewOverlay.addEventListener('click', function (e) { if (e.target === viewOverlay) closeViewModal(); });
+        editOverlay && editOverlay.addEventListener('click', function (e) { if (e.target === editOverlay) closeEditModal(); });
+
+        if (editForm) {
+          editForm.addEventListener('submit', function (e) {
+            e.preventDefault();
+            if (!currentEditRow) return;
+            currentEditRow.cells[0].textContent = document.getElementById('editName').value.trim();
+            currentEditRow.cells[1].textContent = document.getElementById('editEmail').value.trim();
+            var role = document.getElementById('editRole').value;
+            var badge = currentEditRow.cells[2].querySelector('.user-role-badge');
+            if (badge) {
+              badge.textContent = role === 'farmer' ? 'Farmer' : 'General user';
+              badge.className = 'user-role-badge ' + (role === 'farmer' ? 'farmer' : 'general');
+            }
+            currentEditRow.setAttribute('data-role', role);
+            closeEditModal();
+          });
+        }
+
+        document.querySelectorAll('.user-action-btn.view').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            if (row) openViewModal(row);
+          });
+        });
+        document.querySelectorAll('.user-action-btn.edit').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            if (row) openEditModal(row);
+          });
+        });
+
+        // Block: toggle row to blocked, show Unblock button (for later DB integration)
+        document.querySelectorAll('.user-action-btn.block').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            if (!row) return;
+            row.setAttribute('data-status', 'blocked');
+            var statusCell = row.querySelector('.user-status-badge');
+            if (statusCell) {
+              statusCell.textContent = 'Blocked';
+              statusCell.className = 'user-status-badge blocked';
+            }
+            var actions = row.querySelector('.user-actions');
+            if (actions) {
+              var blockBtn = actions.querySelector('.user-action-btn.block');
+              if (blockBtn) {
+                var unblock = document.createElement('button');
+                unblock.type = 'button';
+                unblock.className = 'user-action-btn unblock';
+                unblock.setAttribute('aria-label', 'Unblock user');
+                unblock.innerHTML = '<i class="fa-solid fa-check"></i> Unblock';
+                blockBtn.replaceWith(unblock);
+                unblock.addEventListener('click', function () {
+                  row.setAttribute('data-status', 'active');
+                  if (statusCell) {
+                    statusCell.textContent = 'Active';
+                    statusCell.className = 'user-status-badge active';
+                  }
+                  var blockAgain = document.createElement('button');
+                  blockAgain.type = 'button';
+                  blockAgain.className = 'user-action-btn block';
+                  blockAgain.setAttribute('aria-label', 'Block user');
+                  blockAgain.innerHTML = '<i class="fa-solid fa-ban"></i> Block';
+                  unblock.replaceWith(blockAgain);
+                });
+              }
+            }
+            // TODO: call API e.g. PATCH /api/users/:id { blocked: true }
+          });
+        });
+
+        document.querySelectorAll('.user-action-btn.unblock').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            if (!row) return;
+            row.setAttribute('data-status', 'active');
+            var statusCell = row.querySelector('.user-status-badge');
+            if (statusCell) {
+              statusCell.textContent = 'Active';
+              statusCell.className = 'user-status-badge active';
+            }
+            var blockAgain = document.createElement('button');
+            blockAgain.type = 'button';
+            blockAgain.className = 'user-action-btn block';
+            blockAgain.setAttribute('aria-label', 'Block user');
+            blockAgain.innerHTML = '<i class="fa-solid fa-ban"></i> Block';
+            btn.replaceWith(blockAgain);
+            // TODO: call API e.g. PATCH /api/users/:id { blocked: false }
+          });
+        });
+
+        document.querySelectorAll('.user-action-btn.view').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            var name = row && row.cells[0] ? row.cells[0].textContent : '';
+            // TODO: open profile modal or navigate to user detail
+            console.log('View user:', name);
+          });
+        });
+
+        document.querySelectorAll('.user-action-btn.edit').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            var id = row && row.getAttribute('data-user-id');
+            // TODO: open edit modal or page with user id
+            console.log('Edit user id:', id);
+          });
+        });
+
+        document.querySelectorAll('.user-action-btn.delete').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            var row = btn.closest('tr');
+            var name = row && row.cells[0] ? row.cells[0].textContent : '';
+            if (confirm('Remove user "' + name + '" from the system? This can be reverted later if you integrate with a backend.')) {
+              if (row) row.remove();
+            }
+          });
+        });
+
+        // ========== Password Reset Modal Logic ==========
+        var resetPwdOverlay = document.getElementById('resetPasswordOverlay');
+        var resetPwdClose = document.getElementById('resetPasswordClose');
+        var resetPwdCancel = document.getElementById('resetPasswordCancel');
+        var resetPwdForm = document.getElementById('resetPasswordForm');
+        var resetPwdNew = document.getElementById('resetPasswordNew');
+        var resetPwdUserLabel = document.getElementById('resetPasswordUserLabel');
+        var resetPwdEmailInput = document.getElementById('resetPasswordEmail');
+        var resetPwdRoleInput = document.getElementById('resetPasswordRole');
+        var generatePwdBtn = document.getElementById('generateTempPwd');
+        var resetResultOverlay = document.getElementById('resetResultOverlay');
+        var resetResultClose = document.getElementById('resetResultClose');
+        var resetResultDone = document.getElementById('resetResultDone');
+        var resultEmailSpan = document.getElementById('resultEmail');
+        var resultPasswordSpan = document.getElementById('resultPassword');
+        var copyResultBtn = document.getElementById('copyResultPwd');
+
+        function generateTempPassword() {
+          var len = 10;
+          var upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+          var lower = 'abcdefghjkmnpqrstuvwxyz';
+          var nums = '23456789';
+          var syms = '!@#$%&*';
+          var all = upper + lower + nums + syms;
+          var pwd = '';
+          pwd += upper.charAt(Math.floor(Math.random() * upper.length));
+          pwd += lower.charAt(Math.floor(Math.random() * lower.length));
+          pwd += nums.charAt(Math.floor(Math.random() * nums.length));
+          pwd += syms.charAt(Math.floor(Math.random() * syms.length));
+          for (var i = 4; i < len; i++) pwd += all.charAt(Math.floor(Math.random() * all.length));
+          return pwd.split('').sort(function () { return 0.5 - Math.random(); }).join('');
+        }
+
+        function openResetPasswordModal(userObj) {
+          if (!resetPwdOverlay || !userObj) return;
+          resetPwdUserLabel.value = (userObj.name || userObj.email || '') + '  (' + (userObj.role === 'farmer' ? 'Farmer' : 'General user') + ')';
+          resetPwdEmailInput.value = userObj.email || '';
+          resetPwdRoleInput.value = userObj.role || '';
+          resetPwdNew.value = '';
+          var autoGen = generateTempPassword();
+          resetPwdNew.value = autoGen;
+          resetPwdOverlay.classList.add('is-open');
+          setTimeout(function () { if (resetPwdNew) resetPwdNew.focus(); resetPwdNew.select(); }, 100);
+        }
+        function closeResetPasswordModal() { if (resetPwdOverlay) resetPwdOverlay.classList.remove('is-open'); }
+        function closeResetResultModal() { if (resetResultOverlay) resetResultOverlay.classList.remove('is-open'); }
+        if (generatePwdBtn) generatePwdBtn.addEventListener('click', function () {
+          if (resetPwdNew) resetPwdNew.value = generateTempPassword();
+        });
+        if (resetPwdClose) resetPwdClose.addEventListener('click', closeResetPasswordModal);
+        if (resetPwdCancel) resetPwdCancel.addEventListener('click', closeResetPasswordModal);
+        resetPwdOverlay && resetPwdOverlay.addEventListener('click', function (e) { if (e.target === resetPwdOverlay) closeResetPasswordModal(); });
+        if (resetResultClose) resetResultClose.addEventListener('click', closeResetResultModal);
+        if (resetResultDone) resetResultDone.addEventListener('click', closeResetResultModal);
+        resetResultOverlay && resetResultOverlay.addEventListener('click', function (e) { if (e.target === resetResultOverlay) closeResetResultModal(); });
+        if (copyResultBtn) copyResultBtn.addEventListener('click', function () {
+          var txt = resultPasswordSpan ? resultPasswordSpan.textContent || '' : '';
+          if (!txt) return;
+          try {
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+              navigator.clipboard.writeText(txt).then(function () {
+                var old = copyResultBtn.innerHTML;
+                copyResultBtn.innerHTML = '<i class="fa-solid fa-check"></i>';
+                copyResultBtn.style.color = '#047857';
+                setTimeout(function () { copyResultBtn.innerHTML = old; copyResultBtn.style.color = '#065f46'; }, 1500);
+              }).catch(function () { alert('Copied password: ' + txt); });
+            } else {
+              var ta = document.createElement('textarea'); ta.value = txt; document.body.appendChild(ta); ta.select();
+              try { document.execCommand('copy'); alert('Password copied to clipboard.'); } catch (e) { alert('Copied password: ' + txt); }
+              document.body.removeChild(ta);
+            }
+          } catch (e) { alert('Password: ' + txt); }
+        });
+        if (resetPwdForm) resetPwdForm.addEventListener('submit', function (e) {
+          e.preventDefault();
+          var emailVal = (resetPwdEmailInput && resetPwdEmailInput.value) ? resetPwdEmailInput.value.trim() : '';
+          var roleVal = (resetPwdRoleInput && resetPwdRoleInput.value) ? resetPwdRoleInput.value.trim() : '';
+          var newVal = (resetPwdNew && resetPwdNew.value) ? resetPwdNew.value.trim() : '';
+          if (!emailVal || !roleVal || !newVal) return;
+          var base = getApiBase();
+          resetPwdForm.querySelector('button[type="submit"]').disabled = true;
+          fetch(base + '/api/admin/users/reset-password', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: emailVal, role: roleVal, newPassword: newVal })
+          }).then(function (r) { return r.json().then(function (j) { return { ok: r.ok, body: j }; }); })
+          .then(function (resp) {
+            var submitBtn = resetPwdForm.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = false;
+            if (resp.ok && resp.body && resp.body.ok) {
+              closeResetPasswordModal();
+              if (resultEmailSpan) resultEmailSpan.textContent = emailVal;
+              if (resultPasswordSpan) resultPasswordSpan.textContent = resp.body.temporaryPassword || newVal;
+              if (resetResultOverlay) resetResultOverlay.classList.add('is-open');
+            } else {
+              alert('Failed to reset password: ' + ((resp.body && resp.body.error) ? resp.body.error : 'Server error'));
+            }
+          }).catch(function () {
+            var submitBtn = resetPwdForm.querySelector('button[type="submit"]');
+            if (submitBtn) submitBtn.disabled = false;
+            alert('Cannot reach server to reset password.');
+          });
+        });
+
+        loadUsers();
+      })();
+    </script>
+</body>
+</html>
